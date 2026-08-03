@@ -1,298 +1,318 @@
-import { LeadForm } from '../components/forms/LeadForm';
-import { Quiz } from '../components/home/Quiz';
-import { CategoryVisual, HeroVisual, MapVisual, TheoryVisual } from '../components/home/Visuals';
+import { BrandIcon } from '../components/ui/BrandIcon';
 import { LinkButton } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Container } from '../components/ui/Container';
-import { benefits, branches, cars, faqItems, instructors, learningSteps, scheduleSlots, tariffs, trainingCategories } from '../data/drive';
+import { documents, educationBasePath, educationSections, organizationData, type InfoSection } from '../data/organization';
+import { contactData } from '../data/site';
 import { handleInternalLink } from '../lib/navigation';
-import { toPublicHref } from '../lib/router';
+import type { IconName } from '../types';
 
-const heroBenefits = ['Теория онлайн', 'АКПП и МКПП', 'Гибкий график', 'Занятия рядом с домом', 'Поэтапная оплата'];
-const marqueeItems = ['ТЕОРИЯ ОНЛАЙН', 'ГИБКИЙ ГРАФИК', 'АКПП И МКПП', 'РАССРОЧКА', 'СОПРОВОЖДЕНИЕ ДО ЭКЗАМЕНА'];
-const indicators = [
-  { value: '[X]', label: 'лет обучаем' },
-  { value: '[X 000+]', label: 'выпускников' },
-  { value: '[XX]', label: 'инструкторов' },
-  { value: '[XX]', label: 'районов обучения' },
+type QuickLink = {
+  title: string;
+  text: string;
+  href: string;
+  icon: IconName;
+  asset: BrandAssetName;
+};
+
+type SectionGroup = {
+  title: string;
+  description: string;
+  icon: IconName;
+  asset: BrandAssetName;
+  slugs: string[];
+};
+
+type BrandAssetName = 'documentCheck' | 'folderDocs' | 'educationCap' | 'shield';
+
+type ProcessStep = {
+  title: string;
+  text: string;
+  icon: IconName;
+  asset: BrandAssetName;
+};
+
+const brandAssetVersion = '20260803-icons';
+
+const brandAssetSrc: Record<BrandAssetName, string> = {
+  documentCheck: `${import.meta.env.BASE_URL}brand-assets/icon-document-check.png?v=${brandAssetVersion}`,
+  folderDocs: `${import.meta.env.BASE_URL}brand-assets/icon-folder-docs.png?v=${brandAssetVersion}`,
+  educationCap: `${import.meta.env.BASE_URL}brand-assets/icon-education-cap.png?v=${brandAssetVersion}`,
+  shield: `${import.meta.env.BASE_URL}brand-assets/icon-shield.png?v=${brandAssetVersion}`,
+};
+
+const heroLinks: QuickLink[] = [
+  { title: 'Официальные сведения', text: 'обязательные подразделы сайта', href: educationBasePath, icon: 'certificate', asset: 'documentCheck' },
+  { title: 'Документы', text: 'PDF и локальные акты', href: `${educationBasePath}/dokumenty`, icon: 'document', asset: 'folderDocs' },
+  { title: 'Доступность', text: 'версия для слабовидящих', href: `${educationBasePath}/dostupnaya-sreda`, icon: 'unlock', asset: 'shield' },
 ];
+
+const quickLinks: QuickLink[] = [
+  { title: 'Основные сведения', text: 'наименование, адреса, режим работы, лицензия', href: `${educationBasePath}/osnovnye-svedeniya`, icon: 'building', asset: 'documentCheck' },
+  { title: 'Документы', text: 'устав, лицензия, программа, договоры', href: `${educationBasePath}/dokumenty`, icon: 'document', asset: 'folderDocs' },
+  { title: 'Образование', text: 'программы, сроки, формы и язык обучения', href: `${educationBasePath}/obrazovanie`, icon: 'education', asset: 'educationCap' },
+  { title: 'Педагогический состав', text: 'карточки сотрудников после подтверждения', href: `${educationBasePath}/pedagogicheskiy-sostav`, icon: 'shield', asset: 'shield' },
+];
+
+const sectionGroups: SectionGroup[] = [
+  {
+    title: 'Организация',
+    description: 'Базовые сведения, структура управления и руководство автошколы.',
+    icon: 'building',
+    asset: 'documentCheck',
+    slugs: ['osnovnye-svedeniya', 'struktura-i-organy-upravleniya', 'rukovodstvo'],
+  },
+  {
+    title: 'Образовательный процесс',
+    description: 'Программы, стандарты, педагогический состав и условия обучения.',
+    icon: 'education',
+    asset: 'educationCap',
+    slugs: ['obrazovanie', 'pedagogicheskiy-sostav', 'obrazovatelnye-standarty-i-trebovaniya'],
+  },
+  {
+    title: 'Документы и услуги',
+    description: 'Локальные акты, платные услуги, финансы и вакантные места.',
+    icon: 'document',
+    asset: 'folderDocs',
+    slugs: ['dokumenty', 'platnye-obrazovatelnye-uslugi', 'finansovo-hozyaystvennaya-deyatelnost', 'vakantnye-mesta'],
+  },
+  {
+    title: 'Условия и доступность',
+    description: 'Материальная база, поддержка, питание, доступная среда и сотрудничество.',
+    icon: 'shield',
+    asset: 'shield',
+    slugs: ['materialno-tehnicheskoe-obespechenie', 'stipendii-i-mery-podderzhki', 'organizatsiya-pitaniya', 'dostupnaya-sreda', 'mezhdunarodnoe-sotrudnichestvo'],
+  },
+];
+
+const processSteps: ProcessStep[] = [
+  { title: 'Откройте раздел', text: 'Выберите нужный подраздел в каталоге официальных сведений.', icon: 'search', asset: 'folderDocs' },
+  { title: 'Проверьте статус', text: 'У каждого документа видно, готов ли PDF к публикации.', icon: 'shield', asset: 'documentCheck' },
+  { title: 'Скачайте файл', text: 'После загрузки реальных PDF ссылки будут работать как архив документов.', icon: 'download', asset: 'shield' },
+];
+
+const statusLabels = {
+  available: 'PDF доступен',
+  pending: 'PDF будет добавлен',
+  absent: 'Документ отсутствует',
+};
+
+function sectionsBySlug(slugs: string[]) {
+  return slugs
+    .map((slug) => educationSections.find((section) => section.slug === slug))
+    .filter((section): section is InfoSection => Boolean(section));
+}
+
+function BrandAssetIcon({ asset, className = '' }: { asset: BrandAssetName; className?: string }) {
+  const classes = ['brand-icon-shell', 'brand-icon-shell--asset', className].filter(Boolean).join(' ');
+
+  return (
+    <span className={classes}>
+      <img className="brand-asset-icon" src={brandAssetSrc[asset]} alt="" decoding="async" />
+    </span>
+  );
+}
 
 export function HomePage() {
   return (
     <main>
-      <section className="hero">
-        <Container className="hero__inner">
-          <div className="hero__content">
-            <h1>Уверенность за рулём начинается здесь</h1>
-            <p>Современное обучение вождению, теория онлайн, занятия с выбранным инструктором и сопровождение до экзамена.</p>
-            <div className="hero__actions">
-              <LinkButton href="#programs">Подобрать программу</LinkButton>
-              <LinkButton href="/prices" variant="secondary">Посмотреть тарифы</LinkButton>
+      <section className="official-hero">
+        <Container className="official-hero__inner">
+          <div className="official-hero__copy">
+            <p className="official-kicker official-kicker--with-icon">
+              <BrandIcon name="shield" />
+              Официальный сайт автошколы
+            </p>
+            <h1>Сведения и документы автошколы «Цитрариум»</h1>
+            <p>
+              Собрали структуру сайта под обязательные сведения об образовательной организации:
+              разделы, документы, статусы публикации и быстрый доступ без вымышленных данных.
+            </p>
+            <div className="official-hero__actions">
+              <LinkButton href={educationBasePath}>Открыть сведения</LinkButton>
+              <LinkButton href={`${educationBasePath}/dokumenty`} variant="secondary">Все документы</LinkButton>
             </div>
-            <div className="hero__benefits" aria-label="Преимущества обучения">
-              {heroBenefits.map((item) => <span key={item}>{item}</span>)}
+            <div className="official-hero__icon-row">
+              {heroLinks.map((item) => (
+                <a key={item.href} href={item.href} onClick={(event) => handleInternalLink(event, item.href)}>
+                  <BrandAssetIcon asset={item.asset} className="brand-icon-shell--quick" />
+                  <span>
+                    <strong>{item.title}</strong>
+                    <em>{item.text}</em>
+                  </span>
+                </a>
+              ))}
             </div>
           </div>
-          <HeroVisual />
+          <OfficialRouteVisual />
         </Container>
       </section>
 
-      <div className="marquee" aria-label="Ключевые условия">
-        <div>{[...marqueeItems, ...marqueeItems].map((item, index) => <span key={`${item}-${index}`}>{item}</span>)}</div>
-      </div>
-
-      <section className="section section--compact">
-        <Container>
-          <div className="indicator-row">
-            {indicators.map((item) => (
-              <Card className="indicator-card" key={item.label}>
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-                <small>данные требуют подтверждения</small>
-              </Card>
-            ))}
+      <section className="quick-access-section">
+        <Container className="quick-access">
+          <div className="quick-access__intro">
+            <h2>Быстрый доступ</h2>
+            <p>Самые частые разделы вынесены на первый экран, чтобы не искать документы внутри длинной страницы.</p>
           </div>
+          <nav className="quick-access__nav" aria-label="Быстрый доступ к разделам">
+            {quickLinks.map((item) => (
+              <a key={item.href} href={item.href} onClick={(event) => handleInternalLink(event, item.href)}>
+                <BrandAssetIcon asset={item.asset} className="brand-icon-shell--quick" />
+                <span>
+                  <strong>{item.title}</strong>
+                  <em>{item.text}</em>
+                </span>
+              </a>
+            ))}
+          </nav>
         </Container>
       </section>
 
-      <section className="section" id="programs">
+      <section className="section" id="svedeniya">
+        <Container className="official-summary-layout">
+          <header className="section-heading">
+            <p className="official-kicker">Карточка организации</p>
+            <h2>Данные без фантазий</h2>
+            <p>Поля подготовлены под публикацию официальных сведений. Сейчас неподтвержденные данные оставлены как плейсхолдеры.</p>
+          </header>
+          <Card className="organization-panel">
+            <dl className="official-data-list official-data-list--featured">
+              <div>
+                <span className="official-data-list__icon"><BrandIcon name="building" /></span>
+                <dt>Полное наименование</dt>
+                <dd>{organizationData.fullName}</dd>
+              </div>
+              <div>
+                <span className="official-data-list__icon"><BrandIcon name="certificate" /></span>
+                <dt>Сокращенное наименование</dt>
+                <dd>{organizationData.shortName}</dd>
+              </div>
+              <div>
+                <span className="official-data-list__icon"><BrandIcon name="map" /></span>
+                <dt>Адрес</dt>
+                <dd>{organizationData.address}</dd>
+              </div>
+              <div>
+                <span className="official-data-list__icon"><BrandIcon name="phone" /></span>
+                <dt>Контакты</dt>
+                <dd>{contactData.phone} · {contactData.email}</dd>
+              </div>
+            </dl>
+          </Card>
+        </Container>
+      </section>
+
+      <section className="section section--muted" id="documents">
         <Container>
           <header className="section-heading">
-            <h2>Направления обучения</h2>
-            <p>Категории, восстановление навыков и дополнительные форматы. Стоимость и сроки оставлены плейсхолдерами до утверждения.</p>
+            <p className="official-kicker">Структура</p>
+            <h2>Официальный раздел по ТЗ</h2>
+            <p>Разделы сгруппированы так, чтобы посетитель быстро нашел сведения об организации, обучении, документах и доступной среде.</p>
           </header>
-          <div className="category-grid">
-            {trainingCategories.slice(0, 6).map((category) => (
-              <Card className="category-card" key={category.id}>
-                <CategoryVisual kind={category.visual} />
-                <h3>{category.title}</h3>
-                <p>{category.summary}</p>
-                <dl>
-                  <div><dt>Формат</dt><dd>{category.format}</dd></div>
-                  <div><dt>Срок</dt><dd>{category.duration}</dd></div>
-                  <div><dt>Стоимость</dt><dd>{category.priceLabel}</dd></div>
-                </dl>
-                <LinkButton href={`/programs/${category.slug}`} variant="secondary">Подробнее</LinkButton>
-              </Card>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section className="section section--muted" id="prices">
-        <Container>
-          <header className="section-heading">
-            <h2>Тарифы без сюрпризов</h2>
-            <p>Сетка подготовлена под реальные пакеты, рассрочку и дополнительные услуги. Числа не выдумываются.</p>
-          </header>
-          <div className="tariff-grid">
-            {tariffs.map((tariff) => (
-              <Card className={`tariff-card ${tariff.recommended ? 'tariff-card--recommended' : ''}`} key={tariff.id}>
-                {tariff.recommended ? <span className="badge">Выбирают чаще</span> : null}
-                <h3>{tariff.title}</h3>
-                <strong>{tariff.priceLabel}</strong>
-                <p>{tariff.paymentLabel}</p>
-                <p>{tariff.installmentLabel}</p>
-                <ul>{tariff.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
-                <LinkButton href="#lead">Получить расчёт</LinkButton>
-              </Card>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section className="section section--dark" id="quiz">
-        <Container className="quiz-layout">
-          <header className="section-heading section-heading--dark">
-            <h2>Подберите программу за пару минут</h2>
-            <p>Квиз сохраняет ответы локально и уже готов к подключению CRM, телефонии и аналитики.</p>
-          </header>
-          <Quiz />
-        </Container>
-      </section>
-
-      <section className="section">
-        <Container>
-          <header className="section-heading">
-            <h2>Маршрут обучения</h2>
-            <p>От заявки до экзамена: понятные этапы, поддержка менеджера и видимый прогресс.</p>
-          </header>
-          <div className="learning-path">
-            {learningSteps.map((step, index) => (
-              <article className="step-card" key={step}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <h3>{step}</h3>
+          <div className="section-group-stack">
+            {sectionGroups.map((group) => (
+              <article className="section-group-panel" key={group.title}>
+                <div className="section-group-panel__head">
+                  <BrandAssetIcon asset={group.asset} className="brand-icon-shell--large brand-icon-shell--feature" />
+                  <div>
+                    <h3>{group.title}</h3>
+                    <p>{group.description}</p>
+                  </div>
+                </div>
+                <div className="section-group-panel__links">
+                  {sectionsBySlug(group.slugs).map((section) => (
+                    <a key={section.slug} href={`${educationBasePath}/${section.slug}`} onClick={(event) => handleInternalLink(event, `${educationBasePath}/${section.slug}`)}>
+                      <BrandIcon name={section.icon} />
+                      {section.shortTitle}
+                    </a>
+                  ))}
+                </div>
               </article>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="section section--split" id="online">
-        <Container className="split-grid">
-          <TheoryVisual />
-          <div>
-            <header className="section-heading">
-              <h2>Теория онлайн</h2>
-              <p>Будущий личный кабинет: записи занятий, тесты ПДД, материалы курса и контроль прогресса.</p>
-            </header>
-            <ul className="check-list">
-              <li>доступ к материалам курса;</li>
-              <li>тесты и повторение сложных тем;</li>
-              <li>вопросы преподавателю;</li>
-              <li>связка теории с практикой.</li>
-            </ul>
-          </div>
-        </Container>
-      </section>
-
       <section className="section">
-        <Container className="split-grid split-grid--reverse">
-          <MapVisual />
-          <div>
-            <header className="section-heading">
-              <h2>Практика рядом с вашим маршрутом</h2>
-              <p>Филиалы, площадки и районы обучения размечены как структура. Реальные адреса нужно добавить после подтверждения.</p>
-            </header>
-            <ul className="check-list">
-              <li>городские маршруты и парковка;</li>
-              <li>АКПП и МКПП;</li>
-              <li>подготовка к внутреннему и внешнему экзамену;</li>
-              <li>дополнительный накат для уверенности.</li>
-            </ul>
-          </div>
-        </Container>
-      </section>
-
-      <section className="section section--muted" id="instructors">
-        <Container>
-          <header className="section-heading">
-            <h2>Инструкторы</h2>
-            <p>Карточки готовы к реальным профилям: фото, стаж, категория, машина, район и расписание.</p>
+        <Container className="document-status-layout">
+          <header className="section-heading document-status-copy">
+            <p className="official-kicker">Документы</p>
+            <h2>Статусы публикации видны сразу</h2>
+            <p>Пока реальные PDF не переданы, сайт честно показывает, какие файлы ожидают загрузки.</p>
+            <div className="document-stats" aria-label="Статусы документов">
+              <span><strong>{documents.length}</strong> документов в структуре</span>
+              <span><strong>{documents.filter((item) => item.status === 'pending').length}</strong> ожидают PDF</span>
+            </div>
           </header>
-          <div className="instructor-grid">
-            {instructors.map((instructor) => (
-              <Card className="instructor-card" key={instructor.id}>
-                <div className="portrait-placeholder" aria-hidden="true" />
-                <h3>{instructor.label}</h3>
-                <p>{instructor.description}</p>
-                <dl>
-                  <div><dt>Категория</dt><dd>{instructor.category}</dd></div>
-                  <div><dt>Коробка</dt><dd>{instructor.transmission}</dd></div>
-                  <div><dt>График</dt><dd>{instructor.schedule}</dd></div>
-                </dl>
-              </Card>
+          <div className="document-flow">
+            {documents.slice(0, 6).map((document) => (
+              <article className="document-flow__item" key={document.id}>
+                <span className="brand-icon-shell">
+                  <BrandIcon name="document" />
+                </span>
+                <div>
+                  <h3>{document.title}</h3>
+                  <p>{document.description}</p>
+                </div>
+                <span className={`document-status document-status--${document.status}`}>{statusLabels[document.status]}</span>
+              </article>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="section" id="cars">
+      <section className="section section--muted">
         <Container>
-          <header className="section-heading">
-            <h2>Автопарк</h2>
-            <p>Единая система карточек под фото учебных автомобилей, коробку, категорию, инструктора и район.</p>
+          <header className="section-heading section-heading--center">
+            <p className="official-kicker">Порядок работы</p>
+            <h2>Как пользоваться разделом</h2>
           </header>
-          <div className="cars-grid">
-            {cars.map((car) => (
-              <Card className="car-card" key={car.id}>
-                <CategoryVisual kind={car.category === 'A' ? 'bike' : 'car'} />
-                <h3>{car.model}</h3>
-                <p>{car.features}</p>
-                <dl>
-                  <div><dt>Коробка</dt><dd>{car.transmission}</dd></div>
-                  <div><dt>Категория</dt><dd>{car.category}</dd></div>
-                  <div><dt>Район</dt><dd>{car.area}</dd></div>
-                </dl>
-              </Card>
+          <div className="process-rail">
+            {processSteps.map((step, index) => (
+              <article className="process-step" key={step.title}>
+                <span className="process-step__number">{String(index + 1).padStart(2, '0')}</span>
+                <BrandAssetIcon asset={step.asset} className="brand-icon-shell--large brand-icon-shell--feature" />
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </article>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="section section--dark">
-        <Container>
-          <header className="section-heading section-heading--dark">
-            <h2>Почему выбирают «Драйв»</h2>
-            <p>Преимущества из ТЗ разложены короткими управляемыми карточками без неподтверждённых цифр.</p>
-          </header>
-          <div className="benefits-grid">{benefits.map((benefit) => <Card className="benefit-card" key={benefit}><h3>{benefit}</h3></Card>)}</div>
-        </Container>
-      </section>
-
-      <section className="section" id="schedule">
-        <Container>
-          <header className="section-heading">
-            <h2>Расписание</h2>
-            <p>Демонстрационный вид для будущей интеграции с реальным расписанием занятий.</p>
-          </header>
-          <div className="schedule-table">
-            <table>
-              <thead>
-                <tr><th>День</th><th>Время</th><th>Тип</th><th>Филиал</th><th>Инструктор</th><th>Места</th></tr>
-              </thead>
-              <tbody>
-                {scheduleSlots.map((slot) => (
-                  <tr key={`${slot.date}-${slot.time}-${slot.type}`}>
-                    <td>{slot.date}</td><td>{slot.time}</td><td>{slot.type}</td><td>{slot.branch}</td><td>{slot.instructor}</td><td>{slot.seats}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Container>
-      </section>
-
-      <section className="section section--muted" id="branches">
-        <Container className="branches-layout">
+      <section className="final-cta" id="contacts">
+        <Container className="final-cta__inner">
           <div>
-            <header className="section-heading">
-              <h2>Филиалы</h2>
-              <p>Адреса и телефоны оставлены плейсхолдерами, чтобы не публиковать неподтверждённые данные.</p>
-            </header>
-            <div className="branch-list">{branches.map((branch) => <Card className="branch-card" key={branch.id}><h3>{branch.title}</h3><p>{branch.address}</p><span>{branch.metro}</span><span>{branch.hours}</span><span>{branch.categories}</span></Card>)}</div>
+            <h2>Нужны реальные документы для публикации</h2>
+            <p>Чтобы закрыть официальный раздел полностью, нужно заменить плейсхолдеры на подтвержденные реквизиты, лицензии, локальные акты и PDF-файлы.</p>
+            <div className="final-links">
+              <a href={educationBasePath} onClick={(event) => handleInternalLink(event, educationBasePath)}>Все сведения</a>
+              <a href={`${educationBasePath}/dokumenty`} onClick={(event) => handleInternalLink(event, `${educationBasePath}/dokumenty`)}>Документы</a>
+              <a href="/privacy" onClick={(event) => handleInternalLink(event, '/privacy')}>Политика</a>
+            </div>
           </div>
-          <MapVisual />
-        </Container>
-      </section>
-
-      <section className="section" id="reviews">
-        <Container>
-          <header className="section-heading">
-            <h2>Отзывы</h2>
-            <p>Блок готов к подключению реальных источников: Яндекс Карты, VK, видео и рейтинги.</p>
-          </header>
-          <Card className="empty-review">
-            <h3>Вымышленных отзывов нет</h3>
-            <p>После подтверждения источников сюда можно добавить реальные тексты, ссылки и микроразметку Review.</p>
+          <Card className="contact-panel">
+            <span className="brand-icon-shell brand-icon-shell--large">
+              <BrandIcon name="mail" />
+            </span>
+            <h3>Контакты для заполнения</h3>
+            <p>{contactData.phone}</p>
+            <p>{contactData.email}</p>
+            <p>{contactData.address}</p>
+            <p>Каналы связи будут добавлены после подтверждения.</p>
           </Card>
         </Container>
       </section>
-
-      <section className="section section--muted" id="faq">
-        <Container>
-          <header className="section-heading">
-            <h2>FAQ</h2>
-            <p>Ответы на частые вопросы о сроках, теории, практике, инструкторах и документах.</p>
-          </header>
-          <div className="faq-list">{faqItems.map((item) => <details className="faq-item" key={item.question}><summary>{item.question}</summary><p>{item.answer}</p></details>)}</div>
-        </Container>
-      </section>
-
-      <section className="final-cta" id="lead">
-        <Container className="final-cta__inner">
-          <div>
-            <h2>Готовы начать обучение?</h2>
-            <p>Оставьте заявку, и менеджер подберёт программу, график, инструктора и формат оплаты после подключения реальных каналов связи.</p>
-            <div className="final-links">
-              <a href={toPublicHref('/privacy')} onClick={(event) => handleInternalLink(event, '/privacy')}>Политика</a>
-              <a href={toPublicHref('/consent')} onClick={(event) => handleInternalLink(event, '/consent')}>Согласие</a>
-              <a href={toPublicHref('/cookies')} onClick={(event) => handleInternalLink(event, '/cookies')}>Cookies</a>
-            </div>
-          </div>
-          <LeadForm sourcePage="home-final" />
-        </Container>
-      </section>
     </main>
+  );
+}
+
+function OfficialRouteVisual() {
+  const heroSrc = `${import.meta.env.BASE_URL}brand-assets/citrarium-orbit-icons.png?v=${brandAssetVersion}`;
+
+  return (
+    <div className="portal-visual portal-visual--asset" aria-hidden="true">
+      <img className="portal-visual__image" src={heroSrc} alt="" decoding="async" fetchPriority="high" />
+    </div>
   );
 }

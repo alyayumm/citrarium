@@ -7,7 +7,7 @@ export function NotFoundPage() {
       <Container>
         <header className="page-hero">
           <h1>Страница не найдена</h1>
-          <p>Проверьте адрес страницы или вернитесь на главную автошколы «Драйв».</p>
+          <p>Проверьте адрес страницы или вернитесь на главную автошколы «Цитрариум».</p>
           <LinkButton href="/">На главную</LinkButton>
         </header>
       </Container>

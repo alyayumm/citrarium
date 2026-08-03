@@ -4,7 +4,6 @@ import { Card } from '../components/ui/Card';
 import { Container } from '../components/ui/Container';
 import { educationBasePath, educationSections, InfoSection, organizationData } from '../data/organization';
 import { handleInternalLink } from '../lib/navigation';
-import { toPublicHref } from '../lib/router';
 
 type EducationInfoPageProps = {
   activeSlug?: string;
@@ -38,11 +37,11 @@ export function EducationInfoPage({ activeSlug }: EducationInfoPageProps) {
     <main className="inner-page education-page">
       <Container>
         <nav className="breadcrumbs" aria-label="Хлебные крошки">
-          <a href={toPublicHref('/')} onClick={(event) => handleInternalLink(event, '/')}>
+          <a href="/" onClick={(event) => handleInternalLink(event, '/')}>
             Главная
           </a>
           <span>/</span>
-          <a href={toPublicHref(educationBasePath)} onClick={(event) => handleInternalLink(event, educationBasePath)}>
+          <a href={educationBasePath} onClick={(event) => handleInternalLink(event, educationBasePath)}>
             Сведения об образовательной организации
           </a>
           {activeSection ? (
@@ -65,7 +64,7 @@ export function EducationInfoPage({ activeSlug }: EducationInfoPageProps) {
             <button type="button" onClick={() => window.print()}>
               Печать страницы
             </button>
-            <a href={toPublicHref(`${educationBasePath}/dokumenty`)} onClick={(event) => handleInternalLink(event, `${educationBasePath}/dokumenty`)}>
+            <a href={`${educationBasePath}/dokumenty`} onClick={(event) => handleInternalLink(event, `${educationBasePath}/dokumenty`)}>
               Все документы
             </a>
           </div>
@@ -80,7 +79,7 @@ export function EducationInfoPage({ activeSlug }: EducationInfoPageProps) {
             <nav>
               <a
                 className={!activeSection ? 'is-active' : ''}
-                href={toPublicHref(educationBasePath)}
+                href={educationBasePath}
                 onClick={(event) => handleInternalLink(event, educationBasePath)}
               >
                 Все сведения
@@ -89,7 +88,7 @@ export function EducationInfoPage({ activeSlug }: EducationInfoPageProps) {
                 <a
                   key={section.slug}
                   className={section.slug === activeSlug ? 'is-active' : ''}
-                  href={toPublicHref(`${educationBasePath}/${section.slug}`)}
+                  href={`${educationBasePath}/${section.slug}`}
                   onClick={(event) => handleInternalLink(event, `${educationBasePath}/${section.slug}`)}
                 >
                   {section.shortTitle}

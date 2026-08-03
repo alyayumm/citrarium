@@ -3,14 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Автошкола Драйв</title>
+    <title>Автошкола Цитрариум</title>
     <script>
       sessionStorage.redirect = location.pathname + location.search + location.hash;
-      var firstSegment = location.pathname.split('/').filter(Boolean)[0];
-      location.replace(firstSegment ? '/' + firstSegment + '/' : '/');
+      location.replace('/');
     </script>
   </head>
   <body>
-    <a href="/drive/">Вернуться на главную автошколы «Драйв»</a>
+    <a href="/">Вернуться на главную автошколы «Цитрариум»</a>
   </body>
 </html>

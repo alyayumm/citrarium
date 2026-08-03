@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { contactData, navigation } from '../../data/site';
 import { handleInternalLink } from '../../lib/navigation';
-import { toPublicHref } from '../../lib/router';
 import { LinkButton } from '../ui/Button';
 
 type HeaderProps = {
@@ -12,7 +11,7 @@ type HeaderProps = {
 export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const logoSrc = `${import.meta.env.BASE_URL}logos/logo-main.png`;
+  const logoSrc = `${import.meta.env.BASE_URL}logos/logo-brandbook.png?v=citrarium-20260803`;
   const normalizedPhone = contactData.phone.replace(/\D/g, '');
   const hasPhoneLink = normalizedPhone.length >= 10;
 
@@ -33,7 +32,7 @@ export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
   const nav = (
     <nav className="site-nav" aria-label="Основная навигация">
       {navigation.map((item) => (
-        <a key={item.href} href={toPublicHref(item.href)} onClick={(event) => handleInternalLink(event, item.href)}>
+        <a key={item.href} href={item.href} onClick={(event) => handleInternalLink(event, item.href)}>
           {item.label}
         </a>
       ))}
@@ -43,22 +42,22 @@ export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
   return (
     <header className={`header ${isScrolled ? 'header--scrolled' : ''}`}>
       <div className="topbar">
-        <span>Автошкола нового поколения</span>
+        <span>Официальный сайт автошколы «Цитрариум»</span>
         <span className="topbar__optional">{contactData.city}</span>
         <span className="topbar__optional">{contactData.hours}</span>
         {hasPhoneLink ? <a href={`tel:${normalizedPhone}`}>{contactData.phone}</a> : <span>{contactData.phone}</span>}
-        <a href={toPublicHref('/svedeniya-ob-obrazovatelnoy-organizatsii')} onClick={(event) => handleInternalLink(event, '/svedeniya-ob-obrazovatelnoy-organizatsii')}>
+        <a href="/svedeniya-ob-obrazovatelnoy-organizatsii" onClick={(event) => handleInternalLink(event, '/svedeniya-ob-obrazovatelnoy-organizatsii')}>
           Сведения об образовательной организации
         </a>
       </div>
       <div className="header__inner">
-        <a className="logo-link" href={toPublicHref('/')} aria-label="Автошкола Драйв, на главную" onClick={(event) => handleInternalLink(event, '/')}>
-          <img src={logoSrc} alt="Драйв Автошкола" />
+        <a className="logo-link" href="/" aria-label="Автошкола Цитрариум, на главную" onClick={(event) => handleInternalLink(event, '/')}>
+          <img src={logoSrc} alt="Цитрариум Автошкола" />
         </a>
         {nav}
         <div className="header__actions">
           {hasPhoneLink ? <a className="header__phone" href={`tel:${normalizedPhone}`}>{contactData.phone}</a> : null}
-          <LinkButton href="/#lead">Записаться</LinkButton>
+          <LinkButton href="/svedeniya-ob-obrazovatelnoy-organizatsii/dokumenty">Документы</LinkButton>
           <button className="accessibility-toggle" type="button" aria-pressed={isAccessible} onClick={onToggleAccessible}>
             {isAccessible ? 'Обычная версия' : 'Версия для слабовидящих'}
           </button>
@@ -87,7 +86,7 @@ export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
       {isMenuOpen ? (
         <div className="mobile-menu">
           {nav}
-          <LinkButton href="/#lead" onClick={() => setIsMenuOpen(false)}>Записаться</LinkButton>
+          <LinkButton href="/svedeniya-ob-obrazovatelnoy-organizatsii/dokumenty" onClick={() => setIsMenuOpen(false)}>Документы</LinkButton>
         </div>
       ) : null}
     </header>

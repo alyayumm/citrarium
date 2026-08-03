@@ -1,11 +1,10 @@
 import type { Meta } from '../types';
 import { metaByPath } from '../data/site';
-import { toPublicPath } from './router';
 
 export function applyMeta(path: string): Meta {
   const meta = metaByPath[path] ?? {
-    title: 'Страница не найдена — автошкола Драйв',
-    description: 'Проверьте адрес страницы или вернитесь на главную сайта автошколы «Драйв».',
+    title: 'Страница не найдена — автошкола Цитрариум',
+    description: 'Проверьте адрес страницы или вернитесь на главную сайта автошколы «Цитрариум».',
   };
 
   document.title = meta.title;
@@ -20,7 +19,7 @@ export function applyMeta(path: string): Meta {
   if (ogDescription) ogDescription.content = meta.description;
 
   const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-  if (canonical) canonical.href = window.location.origin + toPublicPath(path);
+  if (canonical) canonical.href = window.location.origin + path;
 
   return meta;
 }
