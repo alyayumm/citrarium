@@ -1,0 +1,8 @@
+node_modules/
+dist/
+local-server.*.log
+dev-server*.log
+.env
+.env.local
+.DS_Store
+public/brand-assets/
