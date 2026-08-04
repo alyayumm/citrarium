@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://alyayumm.github.io/drive/sitemap.xml
+Sitemap: https://alyayumm.github.io/citrarium/sitemap.xml
