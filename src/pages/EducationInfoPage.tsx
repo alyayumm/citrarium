@@ -70,13 +70,13 @@ export function EducationInfoPage({ activeSlug }: EducationInfoPageProps) {
           </div>
         </header>
 
-        <div className="education-layout">
-          <aside className="education-nav" aria-label="Навигация по сведениям">
-            <label className="search-field">
+        <div className="education-page-body">
+          <div className="education-rubricator-panel" aria-label="Навигация по сведениям">
+            <label className="search-field education-rubricator-panel__search">
               <span>Поиск по текущему разделу</span>
               <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Введите запрос" />
             </label>
-            <nav>
+            <nav className="education-rubricator-panel__links">
               <a
                 className={!activeSection ? 'is-active' : ''}
                 href={educationBasePath}
@@ -95,7 +95,7 @@ export function EducationInfoPage({ activeSlug }: EducationInfoPageProps) {
                 </a>
               ))}
             </nav>
-          </aside>
+          </div>
 
           <div className="education-content">
             {!activeSection ? <OrganizationLead /> : null}

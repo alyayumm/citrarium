@@ -13,7 +13,8 @@ export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const logoSrc = `${import.meta.env.BASE_URL}logos/logo-citrarium.png?v=citrarium-20260804-logo`;
   const normalizedPhone = contactData.phone.replace(/\D/g, '');
-  const hasPhoneLink = normalizedPhone.length >= 10;
+  const hasPhone = contactData.phone.trim().length > 0;
+  const hasPhoneLink = hasPhone && normalizedPhone.length >= 10;
 
   useEffect(() => {
     function onScroll() {
@@ -45,7 +46,7 @@ export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
         <span>Официальный сайт автошколы «Цитрариум»</span>
         <span className="topbar__optional">{contactData.city}</span>
         <span className="topbar__optional">{contactData.hours}</span>
-        {hasPhoneLink ? <a href={`tel:${normalizedPhone}`}>{contactData.phone}</a> : <span>{contactData.phone}</span>}
+        {hasPhone ? (hasPhoneLink ? <a href={`tel:${normalizedPhone}`}>{contactData.phone}</a> : <span>{contactData.phone}</span>) : null}
         <a href="/svedeniya-ob-obrazovatelnoy-organizatsii" onClick={(event) => handleInternalLink(event, '/svedeniya-ob-obrazovatelnoy-organizatsii')}>
           Сведения об образовательной организации
         </a>

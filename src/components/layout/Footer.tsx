@@ -33,7 +33,7 @@ export function Footer() {
         </div>
         <div className="footer__col">
           <h2>Контакты</h2>
-          <p>{contactData.phone}</p>
+          {contactData.phone ? <p>{contactData.phone}</p> : null}
           <p>{contactData.email}</p>
           <p>{contactData.address}</p>
           <p>{contactData.hours}</p>

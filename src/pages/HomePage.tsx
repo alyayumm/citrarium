@@ -23,7 +23,17 @@ type SectionGroup = {
   slugs: string[];
 };
 
-type BrandAssetName = 'documentCheck' | 'folderDocs' | 'educationCap' | 'shield';
+type BrandAssetName =
+  | 'documentCheck'
+  | 'folderDocs'
+  | 'educationCap'
+  | 'shield'
+  | 'documentsHero'
+  | 'sectionsFolders'
+  | 'secureDocuments'
+  | 'documentsDark'
+  | 'educationDark'
+  | 'accessibilityDark';
 
 type ProcessStep = {
   title: string;
@@ -32,13 +42,19 @@ type ProcessStep = {
   asset: BrandAssetName;
 };
 
-const brandAssetVersion = '20260803-icons';
+const brandAssetVersion = '20260804-user-assets';
 
 const brandAssetSrc: Record<BrandAssetName, string> = {
   documentCheck: `${import.meta.env.BASE_URL}brand-assets/icon-document-check.png?v=${brandAssetVersion}`,
   folderDocs: `${import.meta.env.BASE_URL}brand-assets/icon-folder-docs.png?v=${brandAssetVersion}`,
   educationCap: `${import.meta.env.BASE_URL}brand-assets/icon-education-cap.png?v=${brandAssetVersion}`,
   shield: `${import.meta.env.BASE_URL}brand-assets/icon-shield.png?v=${brandAssetVersion}`,
+  documentsHero: `${import.meta.env.BASE_URL}brand-assets/citrarium-documents-hero.webp?v=${brandAssetVersion}`,
+  sectionsFolders: `${import.meta.env.BASE_URL}brand-assets/citrarium-sections-folders.webp?v=${brandAssetVersion}`,
+  secureDocuments: `${import.meta.env.BASE_URL}brand-assets/citrarium-secure-documents.webp?v=${brandAssetVersion}`,
+  documentsDark: `${import.meta.env.BASE_URL}brand-assets/citrarium-icon-documents-dark.webp?v=${brandAssetVersion}`,
+  educationDark: `${import.meta.env.BASE_URL}brand-assets/citrarium-icon-education-dark.webp?v=${brandAssetVersion}`,
+  accessibilityDark: `${import.meta.env.BASE_URL}brand-assets/citrarium-icon-accessibility-dark.webp?v=${brandAssetVersion}`,
 };
 
 const heroLinks: QuickLink[] = [
@@ -59,28 +75,28 @@ const sectionGroups: SectionGroup[] = [
     title: 'Организация',
     description: 'Базовые сведения, структура управления и руководство автошколы.',
     icon: 'building',
-    asset: 'documentCheck',
+    asset: 'sectionsFolders',
     slugs: ['osnovnye-svedeniya', 'struktura-i-organy-upravleniya', 'rukovodstvo'],
   },
   {
     title: 'Образовательный процесс',
     description: 'Программы, стандарты, педагогический состав и условия обучения.',
     icon: 'education',
-    asset: 'educationCap',
+    asset: 'educationDark',
     slugs: ['obrazovanie', 'pedagogicheskiy-sostav', 'obrazovatelnye-standarty-i-trebovaniya'],
   },
   {
     title: 'Документы и услуги',
     description: 'Локальные акты, платные услуги, финансы и вакантные места.',
     icon: 'document',
-    asset: 'folderDocs',
+    asset: 'documentsDark',
     slugs: ['dokumenty', 'platnye-obrazovatelnye-uslugi', 'finansovo-hozyaystvennaya-deyatelnost', 'vakantnye-mesta'],
   },
   {
     title: 'Условия и доступность',
     description: 'Материальная база, поддержка, питание, доступная среда и сотрудничество.',
     icon: 'shield',
-    asset: 'shield',
+    asset: 'accessibilityDark',
     slugs: ['materialno-tehnicheskoe-obespechenie', 'stipendii-i-mery-podderzhki', 'organizatsiya-pitaniya', 'dostupnaya-sreda', 'mezhdunarodnoe-sotrudnichestvo'],
   },
 ];
@@ -104,6 +120,8 @@ function sectionsBySlug(slugs: string[]) {
 }
 
 export function HomePage() {
+  const contactLine = [contactData.phone, contactData.email].filter(Boolean).join(' · ') || 'Контакты будут добавлены после подтверждения';
+
   return (
     <main>
       <section className="official-hero">
@@ -145,6 +163,7 @@ export function HomePage() {
           <div className="quick-access__intro">
             <h2>Быстрый доступ</h2>
             <p>Самые частые разделы вынесены на первый экран, чтобы не искать документы внутри длинной страницы.</p>
+            <img className="quick-access__image" src={brandAssetSrc.sectionsFolders} alt="" loading="lazy" decoding="async" />
           </div>
           <nav className="quick-access__nav" aria-label="Быстрый доступ к разделам">
             {quickLinks.map((item) => (
@@ -189,7 +208,7 @@ export function HomePage() {
               <div>
                 <span className="official-data-list__icon"><BrandIcon name="phone" /></span>
                 <dt>Контакты</dt>
-                <dd>{contactData.phone} · {contactData.email}</dd>
+                <dd>{contactLine}</dd>
               </div>
             </dl>
           </Card>
@@ -207,13 +226,16 @@ export function HomePage() {
             {sectionGroups.map((group) => (
               <article className="section-group-panel" key={group.title}>
                 <div className="section-group-panel__head">
-                  <span className="section-group-panel__marker">
-                    <BrandIcon name={group.icon} />
-                  </span>
-                  <div>
-                    <h3>{group.title}</h3>
-                    <p>{group.description}</p>
+                  <div className="section-group-panel__title">
+                    <span className="section-group-panel__marker">
+                      <BrandIcon name={group.icon} />
+                    </span>
+                    <div>
+                      <h3>{group.title}</h3>
+                      <p>{group.description}</p>
+                    </div>
                   </div>
+                  <img className="section-group-panel__image" src={brandAssetSrc[group.asset]} alt="" loading="lazy" decoding="async" />
                 </div>
                 <div className="section-group-panel__links">
                   {sectionsBySlug(group.slugs).map((section) => (
@@ -290,11 +312,12 @@ export function HomePage() {
             </div>
           </div>
           <Card className="contact-panel">
+            <img className="contact-panel__image" src={brandAssetSrc.secureDocuments} alt="" loading="lazy" decoding="async" />
             <span className="brand-icon-shell brand-icon-shell--large">
               <BrandIcon name="mail" />
             </span>
             <h3>Контакты для заполнения</h3>
-            <p>{contactData.phone}</p>
+            {contactData.phone ? <p>{contactData.phone}</p> : null}
             <p>{contactData.email}</p>
             <p>{contactData.address}</p>
             <p>Каналы связи будут добавлены после подтверждения.</p>
@@ -306,18 +329,11 @@ export function HomePage() {
 }
 
 function OfficialRouteVisual() {
-  const heroSrc = brandAssetSrc.folderDocs;
+  const heroSrc = brandAssetSrc.documentsHero;
 
   return (
     <div className="portal-visual portal-visual--document" aria-hidden="true">
-      <div className="document-hero-visual">
-        <img className="document-hero-visual__image" src={heroSrc} alt="" decoding="async" fetchPriority="high" />
-        <div className="document-hero-visual__registry">
-          <span />
-          <span />
-          <span />
-        </div>
-      </div>
+      <img className="document-hero-visual__wide" src={heroSrc} alt="" decoding="async" fetchPriority="high" />
     </div>
   );
 }

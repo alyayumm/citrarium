@@ -8,9 +8,9 @@ export const brand = {
 };
 
 export const contactData = {
-  city: '[город]',
-  hours: '[режим работы]',
-  phone: '[телефон]',
+  city: 'Санкт-Петербург',
+  hours: 'Ежедневно с 9:00 до 21:00',
+  phone: '',
   email: '[email]',
   address: '[адрес]',
   telegram: 'Telegram',
@@ -76,7 +76,7 @@ export const organizationSchema = {
   name: `Автошкола ${brand.name}`,
   legalName: organizationData.fullName,
   description: brand.tagline,
-  telephone: contactData.phone,
+  telephone: contactData.phone || undefined,
   email: contactData.email,
   address: contactData.address,
   url: organizationData.website,
