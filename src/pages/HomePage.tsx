@@ -103,16 +103,6 @@ function sectionsBySlug(slugs: string[]) {
     .filter((section): section is InfoSection => Boolean(section));
 }
 
-function BrandAssetIcon({ asset, className = '' }: { asset: BrandAssetName; className?: string }) {
-  const classes = ['brand-icon-shell', 'brand-icon-shell--asset', className].filter(Boolean).join(' ');
-
-  return (
-    <span className={classes}>
-      <img className="brand-asset-icon" src={brandAssetSrc[asset]} alt="" decoding="async" />
-    </span>
-  );
-}
-
 export function HomePage() {
   return (
     <main>
@@ -135,7 +125,9 @@ export function HomePage() {
             <div className="official-hero__icon-row">
               {heroLinks.map((item) => (
                 <a key={item.href} href={item.href} onClick={(event) => handleInternalLink(event, item.href)}>
-                  <BrandAssetIcon asset={item.asset} className="brand-icon-shell--quick" />
+                  <span className="registry-link__icon">
+                    <BrandIcon name={item.icon} />
+                  </span>
                   <span>
                     <strong>{item.title}</strong>
                     <em>{item.text}</em>
@@ -157,7 +149,9 @@ export function HomePage() {
           <nav className="quick-access__nav" aria-label="Быстрый доступ к разделам">
             {quickLinks.map((item) => (
               <a key={item.href} href={item.href} onClick={(event) => handleInternalLink(event, item.href)}>
-                <BrandAssetIcon asset={item.asset} className="brand-icon-shell--quick" />
+                <span className="registry-link__icon">
+                  <BrandIcon name={item.icon} />
+                </span>
                 <span>
                   <strong>{item.title}</strong>
                   <em>{item.text}</em>
@@ -213,7 +207,9 @@ export function HomePage() {
             {sectionGroups.map((group) => (
               <article className="section-group-panel" key={group.title}>
                 <div className="section-group-panel__head">
-                  <BrandAssetIcon asset={group.asset} className="brand-icon-shell--large brand-icon-shell--feature" />
+                  <span className="section-group-panel__marker">
+                    <BrandIcon name={group.icon} />
+                  </span>
                   <div>
                     <h3>{group.title}</h3>
                     <p>{group.description}</p>
@@ -247,14 +243,14 @@ export function HomePage() {
           <div className="document-flow">
             {documents.slice(0, 6).map((document) => (
               <article className="document-flow__item" key={document.id}>
-                <span className="brand-icon-shell">
-                  <BrandIcon name="document" />
-                </span>
-                <div>
+                <div className="document-flow__body">
                   <h3>{document.title}</h3>
                   <p>{document.description}</p>
                 </div>
                 <span className={`document-status document-status--${document.status}`}>{statusLabels[document.status]}</span>
+                <a className="document-flow__action" href={document.href} target="_blank" rel="noreferrer">
+                  Открыть
+                </a>
               </article>
             ))}
           </div>
@@ -271,7 +267,9 @@ export function HomePage() {
             {processSteps.map((step, index) => (
               <article className="process-step" key={step.title}>
                 <span className="process-step__number">{String(index + 1).padStart(2, '0')}</span>
-                <BrandAssetIcon asset={step.asset} className="brand-icon-shell--large brand-icon-shell--feature" />
+                <span className="process-step__icon">
+                  <BrandIcon name={step.icon} />
+                </span>
                 <h3>{step.title}</h3>
                 <p>{step.text}</p>
               </article>
@@ -308,11 +306,18 @@ export function HomePage() {
 }
 
 function OfficialRouteVisual() {
-  const heroSrc = `${import.meta.env.BASE_URL}brand-assets/citrarium-orbit-icons.png?v=${brandAssetVersion}`;
+  const heroSrc = brandAssetSrc.folderDocs;
 
   return (
-    <div className="portal-visual portal-visual--asset" aria-hidden="true">
-      <img className="portal-visual__image" src={heroSrc} alt="" decoding="async" fetchPriority="high" />
+    <div className="portal-visual portal-visual--document" aria-hidden="true">
+      <div className="document-hero-visual">
+        <img className="document-hero-visual__image" src={heroSrc} alt="" decoding="async" fetchPriority="high" />
+        <div className="document-hero-visual__registry">
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
     </div>
   );
 }
