@@ -11,7 +11,7 @@ type HeaderProps = {
 export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const logoSrc = `${import.meta.env.BASE_URL}logos/logo-brandbook.png?v=citrarium-20260804-logo`;
+  const logoSrc = `${import.meta.env.BASE_URL}logos/logo-citrarium.png?v=citrarium-20260804-logo`;
   const normalizedPhone = contactData.phone.replace(/\D/g, '');
   const hasPhoneLink = normalizedPhone.length >= 10;
 
