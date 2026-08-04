@@ -4,7 +4,7 @@ import { handleInternalLink } from '../../lib/navigation';
 import { Container } from '../ui/Container';
 
 export function Footer() {
-  const logoSrc = `${import.meta.env.BASE_URL}logos/logo-brandbook.png?v=citrarium-20260803`;
+  const logoSrc = `${import.meta.env.BASE_URL}logos/logo-brandbook.png?v=citrarium-20260804-logo`;
 
   return (
     <footer className="footer">
