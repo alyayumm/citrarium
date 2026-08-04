@@ -10,9 +10,9 @@ export const brand = {
 export const contactData = {
   city: 'Санкт-Петербург',
   hours: 'Ежедневно с 9:00 до 21:00',
-  phone: '',
-  email: '[email]',
-  address: '[адрес]',
+  phone: organizationData.phone,
+  email: organizationData.email,
+  address: organizationData.address,
   telegram: 'Telegram',
   telegramUrl: '',
   whatsapp: 'WhatsApp',
@@ -77,7 +77,7 @@ export const organizationSchema = {
   legalName: organizationData.fullName,
   description: brand.tagline,
   telephone: contactData.phone || undefined,
-  email: contactData.email,
-  address: contactData.address,
-  url: organizationData.website,
+  email: contactData.email || undefined,
+  address: contactData.address || undefined,
+  url: organizationData.website || undefined,
 };

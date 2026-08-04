@@ -5,6 +5,7 @@ import { Container } from '../components/ui/Container';
 import { documents, educationBasePath, educationSections, organizationData, type InfoSection } from '../data/organization';
 import { contactData } from '../data/site';
 import { handleInternalLink } from '../lib/navigation';
+import { toPublicHref } from '../lib/router';
 import type { IconName } from '../types';
 
 type QuickLink = {
@@ -120,7 +121,7 @@ function sectionsBySlug(slugs: string[]) {
 }
 
 export function HomePage() {
-  const contactLine = [contactData.phone, contactData.email].filter(Boolean).join(' · ') || 'Контакты будут добавлены после подтверждения';
+  const contactLine = [contactData.phone, contactData.email].filter(Boolean).join(' · ') || 'Телефон и email будут добавлены после подтверждения';
 
   return (
     <main>
@@ -270,7 +271,7 @@ export function HomePage() {
                   <p>{document.description}</p>
                 </div>
                 <span className={`document-status document-status--${document.status}`}>{statusLabels[document.status]}</span>
-                <a className="document-flow__action" href={document.href} target="_blank" rel="noreferrer">
+                <a className="document-flow__action" href={toPublicHref(document.href)} target="_blank" rel="noreferrer">
                   Открыть
                 </a>
               </article>
@@ -316,10 +317,11 @@ export function HomePage() {
             <span className="brand-icon-shell brand-icon-shell--large">
               <BrandIcon name="mail" />
             </span>
-            <h3>Контакты для заполнения</h3>
+            <h3>Контактные данные</h3>
             {contactData.phone ? <p>{contactData.phone}</p> : null}
-            <p>{contactData.email}</p>
-            <p>{contactData.address}</p>
+            {contactData.email ? <p>{contactData.email}</p> : null}
+            {contactData.address ? <p>{contactData.address}</p> : null}
+            <p>{contactData.hours}</p>
             <p>Каналы связи будут добавлены после подтверждения.</p>
           </Card>
         </Container>

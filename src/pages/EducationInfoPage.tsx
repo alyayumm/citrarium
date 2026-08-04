@@ -4,6 +4,7 @@ import { Card } from '../components/ui/Card';
 import { Container } from '../components/ui/Container';
 import { educationBasePath, educationSections, InfoSection, organizationData } from '../data/organization';
 import { handleInternalLink } from '../lib/navigation';
+import { toPublicHref } from '../lib/router';
 
 type EducationInfoPageProps = {
   activeSlug?: string;
@@ -145,13 +146,15 @@ function OrganizationLead() {
           <dt>Адрес</dt>
           <dd>{organizationData.address}</dd>
         </div>
-        <div>
-          <span className="official-data-list__icon">
-            <BrandIcon name="phone" />
-          </span>
-          <dt>Телефон</dt>
-          <dd>{organizationData.phone}</dd>
-        </div>
+        {organizationData.phone ? (
+          <div>
+            <span className="official-data-list__icon">
+              <BrandIcon name="phone" />
+            </span>
+            <dt>Телефон</dt>
+            <dd>{organizationData.phone}</dd>
+          </div>
+        ) : null}
       </dl>
     </Card>
   );
@@ -248,11 +251,11 @@ function InfoSectionBlock({ section }: { section: InfoSection }) {
               <h3>{document.title}</h3>
               <p>{document.description}</p>
               <div className="document-card__actions">
-                <a href={document.href} target="_blank" rel="noreferrer">
+                <a href={toPublicHref(document.href)} target="_blank" rel="noreferrer">
                   <BrandIcon name="search" />
                   Открыть PDF
                 </a>
-                <a href={document.href} download>
+                <a href={toPublicHref(document.href)} download>
                   <BrandIcon name="download" />
                   Скачать
                 </a>

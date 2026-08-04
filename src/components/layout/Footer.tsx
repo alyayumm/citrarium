@@ -34,9 +34,9 @@ export function Footer() {
         <div className="footer__col">
           <h2>Контакты</h2>
           {contactData.phone ? <p>{contactData.phone}</p> : null}
-          <p>{contactData.email}</p>
-          <p>{contactData.address}</p>
-          <p>{contactData.hours}</p>
+          {contactData.email ? <p>{contactData.email}</p> : null}
+          {contactData.address ? <p>{contactData.address}</p> : null}
+          {contactData.hours ? <p>{contactData.hours}</p> : null}
           <p>Каналы связи будут добавлены после подтверждения.</p>
         </div>
       </Container>
