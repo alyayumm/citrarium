@@ -19,8 +19,6 @@ type QuickLink = {
 type SectionGroup = {
   title: string;
   description: string;
-  icon: IconName;
-  asset: BrandAssetName;
   slugs: string[];
 };
 
@@ -75,29 +73,21 @@ const sectionGroups: SectionGroup[] = [
   {
     title: 'Организация',
     description: 'Базовые сведения, структура управления и руководство автошколы.',
-    icon: 'building',
-    asset: 'sectionsFolders',
     slugs: ['osnovnye-svedeniya', 'struktura-i-organy-upravleniya', 'rukovodstvo'],
   },
   {
     title: 'Образовательный процесс',
     description: 'Программы, стандарты, педагогический состав и условия обучения.',
-    icon: 'education',
-    asset: 'educationDark',
     slugs: ['obrazovanie', 'pedagogicheskiy-sostav', 'obrazovatelnye-standarty-i-trebovaniya'],
   },
   {
     title: 'Документы и услуги',
     description: 'Локальные акты, платные услуги, финансы и вакантные места.',
-    icon: 'document',
-    asset: 'documentsDark',
     slugs: ['dokumenty', 'platnye-obrazovatelnye-uslugi', 'finansovo-hozyaystvennaya-deyatelnost', 'vakantnye-mesta'],
   },
   {
     title: 'Условия и доступность',
     description: 'Материальная база, поддержка, питание, доступная среда и сотрудничество.',
-    icon: 'shield',
-    asset: 'accessibilityDark',
     slugs: ['materialno-tehnicheskoe-obespechenie', 'stipendii-i-mery-podderzhki', 'organizatsiya-pitaniya', 'dostupnaya-sreda', 'mezhdunarodnoe-sotrudnichestvo'],
   },
 ];
@@ -228,15 +218,11 @@ export function HomePage() {
               <article className="section-group-panel" key={group.title}>
                 <div className="section-group-panel__head">
                   <div className="section-group-panel__title">
-                    <span className="section-group-panel__marker">
-                      <BrandIcon name={group.icon} />
-                    </span>
                     <div>
                       <h3>{group.title}</h3>
                       <p>{group.description}</p>
                     </div>
                   </div>
-                  <img className="section-group-panel__image" src={brandAssetSrc[group.asset]} alt="" loading="lazy" decoding="async" />
                 </div>
                 <div className="section-group-panel__links">
                   {sectionsBySlug(group.slugs).map((section) => (

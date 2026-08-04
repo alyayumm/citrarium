@@ -58,7 +58,7 @@ export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
         {nav}
         <div className="header__actions">
           {hasPhoneLink ? <a className="header__phone" href={`tel:${normalizedPhone}`}>{contactData.phone}</a> : null}
-          <LinkButton href="/svedeniya-ob-obrazovatelnoy-organizatsii/dokumenty">Документы</LinkButton>
+          <LinkButton className="header-documents-button" href="/svedeniya-ob-obrazovatelnoy-organizatsii/dokumenty" icon="document">Документы</LinkButton>
           <button className="accessibility-toggle" type="button" aria-pressed={isAccessible} onClick={onToggleAccessible}>
             {isAccessible ? 'Обычная версия' : 'Версия для слабовидящих'}
           </button>
@@ -87,7 +87,7 @@ export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
       {isMenuOpen ? (
         <div className="mobile-menu">
           {nav}
-          <LinkButton href="/svedeniya-ob-obrazovatelnoy-organizatsii/dokumenty" onClick={() => setIsMenuOpen(false)}>Документы</LinkButton>
+          <LinkButton className="header-documents-button" href="/svedeniya-ob-obrazovatelnoy-organizatsii/dokumenty" icon="document" onClick={() => setIsMenuOpen(false)}>Документы</LinkButton>
         </div>
       ) : null}
     </header>

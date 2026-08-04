@@ -307,13 +307,14 @@ section {
   background: currentColor;
 }
 
-.button__icon::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-top: 2px solid #fff;
-  border-right: 2px solid #fff;
-  transform: rotate(45deg) translate(-1px, 1px);
+.button__icon svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
 }
 
 .button--secondary .button__icon {
@@ -2889,6 +2890,18 @@ body {
 
 .button__icon {
   background: rgba(32, 35, 38, 0.08);
+  color: currentColor;
+}
+
+.header-documents-button .button__icon {
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.header-documents-button .button__icon svg {
+  width: 15px;
+  height: 15px;
 }
 
 .official-hero {
@@ -3202,8 +3215,8 @@ dd {
   border: 0;
   border-bottom: 1px solid var(--line);
   border-radius: 0;
-  grid-template-columns: minmax(240px, 0.36fr) minmax(0, 1fr);
-  gap: 30px;
+  grid-template-columns: minmax(430px, 0.62fr) minmax(0, 1fr);
+  gap: 34px;
   background: transparent;
   padding: 26px 30px;
   box-shadow: none;
@@ -3214,7 +3227,7 @@ dd {
 }
 
 .section-group-panel__head {
-  gap: 12px;
+  gap: 0;
 }
 
 .section-group-panel__marker,
@@ -3242,6 +3255,8 @@ dd {
 .contact-panel h3 {
   font-size: 21px;
   font-weight: 820;
+  line-height: 1.2;
+  text-wrap: balance;
 }
 
 .section-group-panel p,
@@ -3249,6 +3264,10 @@ dd {
 .document-flow__item p,
 .contact-panel p {
   line-height: 1.52;
+}
+
+.section-group-panel p {
+  max-width: 36rem;
 }
 
 .section-group-panel__links {
@@ -3679,26 +3698,18 @@ dd {
 
 .section-group-panel__head {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 118px;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
-  gap: 18px;
+  gap: 0;
 }
 
 .section-group-panel__title {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  display: block;
   min-width: 0;
 }
 
 .section-group-panel__image {
-  width: 118px;
-  height: 78px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #fff;
-  object-fit: cover;
-  object-position: center;
+  display: none;
 }
 
 .contact-panel__image {
@@ -3821,12 +3832,7 @@ dd {
   }
 
   .section-group-panel__head {
-    grid-template-columns: minmax(0, 1fr) 104px;
-  }
-
-  .section-group-panel__image {
-    width: 104px;
-    height: 70px;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .education-rubricator-panel {
