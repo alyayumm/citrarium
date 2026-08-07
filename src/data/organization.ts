@@ -41,7 +41,7 @@ export const organizationData = {
   phone: '',
   email: '',
   website: 'https://alyayumm.github.io/citrarium/',
-  educationAddress: 'Адреса мест осуществления образовательной деятельности в выписке из реестра лицензий от 31.07.2026 не указаны',
+  educationAddress: 'Адреса мест осуществления образовательной деятельности в выписке из реестра лицензий от 07.08.2026 не указаны',
   director: 'Ушаков Дмитрий Юрьевич',
   directorRole: 'Генеральный директор',
   accreditation: 'Государственная аккредитация не указана в предоставленных документах',
@@ -60,7 +60,7 @@ export const organizationData = {
   licenseDecision: '№720-п/23 от 27.09.2023',
   licenseAuthority: 'Комитет по образованию',
   licensePrograms: 'Профессиональное обучение; дополнительное образование; дополнительное профессиональное образование',
-  extractDate: '31.07.2026',
+  extractDate: '07.08.2026',
 };
 
 const documentPath = (fileName: string) => `/documents/${fileName}`;
@@ -70,7 +70,7 @@ const fieldIfPresent = (field: InfoField): InfoField[] => (field.value.trim() ? 
 export const documents: OfficialDocument[] = [
   { id: 'charter', title: 'Устав ООО ВНОЦ «Цитрариум»', description: 'Новая редакция устава, утверждена 21 октября 2024 года.', href: documentPath('ustav-citrarium-2024.pdf'), status: 'available' },
   { id: 'egrul', title: 'Выписка из ЕГРЮЛ от 31.07.2026', description: 'Сведения о юридическом лице по состоянию на 31 июля 2026 года.', href: documentPath('egrul-2026-07-31.pdf'), status: 'available' },
-  { id: 'license', title: 'Выписка из реестра лицензий от 31.07.2026', description: 'Лицензия действующая, регистрационный номер Л035-01271-78/00693445.', href: documentPath('license-extract-2026-07-31.pdf'), status: 'available' },
+  { id: 'license', title: 'Выписка из реестра лицензий от 07.08.2026', description: 'Лицензия действующая, регистрационный номер Л035-01271-78/00693445.', href: documentPath('license-registry-extract-2026-08-07.pdf'), status: 'available' },
   { id: 'program', title: 'Образовательная программа', description: 'Утверждённая программа обучения будет добавлена в раздел документов.', href: pendingPdf, status: 'pending' },
   { id: 'contract', title: 'Образец договора об оказании платных образовательных услуг', description: 'Шаблон договора требует юридического подтверждения.', href: pendingPdf, status: 'pending' },
   { id: 'price-order', title: 'Приказ о стоимости обучения', description: 'Не заполняется вымышленными ценами. Нужен утверждённый документ.', href: pendingPdf, status: 'pending' },
