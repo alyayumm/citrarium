@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Автошкола Цитрариум</title>
     <script>
-      sessionStorage.redirect = location.pathname + location.search + location.hash;
-      location.replace('/');
+      const basePath = '/citrarium';
+      const nextPath = location.pathname.startsWith(basePath)
+        ? location.pathname.slice(basePath.length) || '/'
+        : location.pathname;
+
+      sessionStorage.redirect = nextPath + location.search + location.hash;
+      location.replace(basePath + '/');
     </script>
   </head>
   <body>
-    <a href="/">Вернуться на главную автошколы «Цитрариум»</a>
+    <a href="/citrarium/">Вернуться на главную автошколы «Цитрариум»</a>
   </body>
 </html>
