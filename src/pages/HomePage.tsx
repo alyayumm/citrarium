@@ -243,7 +243,7 @@ export function HomePage() {
           <header className="section-heading document-status-copy">
             <p className="official-kicker">Документы</p>
             <h2>Статусы публикации видны сразу</h2>
-            <p>Пока реальные PDF не переданы, сайт честно показывает, какие файлы ожидают загрузки.</p>
+            <p>PDF из переданного архива загружены в реестр. Для оставшихся позиций сайт отдельно показывает статус ожидания файла.</p>
             <div className="document-stats" aria-label="Статусы документов">
               <span><strong>{documents.length}</strong> документов в структуре</span>
               <span><strong>{documents.filter((item) => item.status === 'pending').length}</strong> ожидают PDF</span>
