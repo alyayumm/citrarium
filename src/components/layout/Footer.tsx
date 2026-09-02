@@ -13,36 +13,45 @@ export function Footer() {
           <span className="footer__logo">
             <img src={logoSrc} alt="Цитрариум Автошкола" />
           </span>
-          <p>Официальный сайт автошколы «Цитрариум» со сведениями об образовательной организации.</p>
+          <p>Автошкола «Цитрариум»: обучение вождению, тарифы и официальные сведения об образовательной организации.</p>
           <p>{organizationData.fullName}</p>
         </div>
         <div className="footer__col">
           <h2>Меню</h2>
           {footerNavigation.slice(0, 8).map((item) => (
-            <a key={item.href} href={item.href} onClick={(event) => handleInternalLink(event, item.href)}>{item.label}</a>
+            <a key={item.href} href={item.href} onClick={(event) => handleInternalLink(event, item.href)}>
+              {item.label}
+            </a>
           ))}
         </div>
         <div className="footer__col">
           <h2>Документы</h2>
-          <a href="/privacy" onClick={(event) => handleInternalLink(event, '/privacy')}>Политика конфиденциальности</a>
-          <a href="/consent" onClick={(event) => handleInternalLink(event, '/consent')}>Согласие на обработку данных</a>
-          <a href="/cookies" onClick={(event) => handleInternalLink(event, '/cookies')}>Cookies</a>
+          <a href="/privacy" onClick={(event) => handleInternalLink(event, '/privacy')}>
+            Политика конфиденциальности
+          </a>
+          <a href="/consent" onClick={(event) => handleInternalLink(event, '/consent')}>
+            Согласие на обработку данных
+          </a>
+          <a href="/cookies" onClick={(event) => handleInternalLink(event, '/cookies')}>
+            Cookies
+          </a>
           {sectionNavigation.slice(0, 4).map((item) => (
-            <a key={item.href} href={item.href} onClick={(event) => handleInternalLink(event, item.href)}>{item.label}</a>
+            <a key={item.href} href={item.href} onClick={(event) => handleInternalLink(event, item.href)}>
+              {item.label}
+            </a>
           ))}
         </div>
         <div className="footer__col">
           <h2>Контакты</h2>
-          {contactData.phone ? <p>{contactData.phone}</p> : null}
+          {contactData.city ? <p>{contactData.city}</p> : null}
+          {contactData.hours ? <p>{contactData.hours}</p> : null}
           {contactData.email ? <p>{contactData.email}</p> : null}
           {contactData.address ? <p>{contactData.address}</p> : null}
-          {contactData.hours ? <p>{contactData.hours}</p> : null}
-          <p>Каналы связи будут добавлены после подтверждения.</p>
         </div>
       </Container>
       <Container className="footer__bottom">
         <span>© Автошкола «Цитрариум», 2026</span>
-        <span>Лицензия и реквизиты будут добавлены после подтверждения</span>
+        <span>Тарифы и документы размещены на сайте</span>
       </Container>
     </footer>
   );

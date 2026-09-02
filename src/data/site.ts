@@ -4,7 +4,8 @@ import { educationBasePath, educationSections, organizationData } from './organi
 export const brand = {
   name: 'Цитрариум',
   descriptor: 'Автошкола',
-  tagline: 'Официальный сайт автошколы «Цитрариум» со сведениями об образовательной организации, документами и обязательными подразделами.',
+  tagline:
+    'Автошкола «Цитрариум» в Санкт-Петербурге: обучение вождению, тарифы, документы и официальные сведения об образовательной организации.',
 };
 
 export const contactData = {
@@ -21,16 +22,20 @@ export const contactData = {
 };
 
 export const navigation: NavItem[] = [
-  { label: 'Сведения', href: educationBasePath },
+  { label: 'Категории', href: '/#categories' },
+  { label: 'Тарифы', href: '/#tariffs' },
+  { label: 'Обучение', href: '/#process' },
   { label: 'Документы', href: `${educationBasePath}/dokumenty` },
-  { label: 'Образование', href: `${educationBasePath}/obrazovanie` },
-  { label: 'Руководство', href: `${educationBasePath}/rukovodstvo` },
-  { label: 'Доступная среда', href: `${educationBasePath}/dostupnaya-sreda` },
+  { label: 'Сведения', href: educationBasePath },
 ];
 
 export const footerNavigation: NavItem[] = [
   { label: 'Главная', href: '/' },
-  ...navigation,
+  { label: 'Категории', href: '/#categories' },
+  { label: 'Тарифы', href: '/#tariffs' },
+  { label: 'Как проходит обучение', href: '/#process' },
+  { label: 'Документы', href: `${educationBasePath}/dokumenty` },
+  { label: 'Сведения об образовательной организации', href: educationBasePath },
   { label: 'Политика конфиденциальности', href: '/privacy' },
   { label: 'Согласие на обработку данных', href: '/consent' },
 ];
@@ -42,12 +47,13 @@ export const sectionNavigation: NavItem[] = educationSections.map((section) => (
 
 export const metaByPath: Record<string, Meta> = {
   '/': {
-    title: 'Автошкола Цитрариум — сведения об образовательной организации',
-    description: 'Официальный сайт автошколы «Цитрариум»: сведения об образовательной организации, обязательные подразделы и документы.',
+    title: 'Автошкола Цитрариум — обучение вождению в Санкт-Петербурге',
+    description:
+      'Автошкола «Цитрариум»: категории B, A и A+B, тарифы, онлайн- и классическое обучение, документы и официальные сведения.',
   },
   '/privacy': {
     title: 'Политика конфиденциальности — автошкола Цитрариум',
-    description: 'Страница политики конфиденциальности для официального сайта автошколы «Цитрариум».',
+    description: 'Страница политики конфиденциальности для сайта автошколы «Цитрариум».',
   },
   '/consent': {
     title: 'Согласие на обработку данных — автошкола Цитрариум',
@@ -55,11 +61,12 @@ export const metaByPath: Record<string, Meta> = {
   },
   '/cookies': {
     title: 'Cookies — автошкола Цитрариум',
-    description: 'Информация о cookies и аналитике сайта автошколы «Цитрариум».',
+    description: 'Информация о cookies и технической работе сайта автошколы «Цитрариум».',
   },
   [educationBasePath]: {
     title: 'Сведения об образовательной организации — автошкола Цитрариум',
-    description: 'Официальный раздел автошколы «Цитрариум» с основными сведениями, документами, образованием, руководством и обязательными подразделами.',
+    description:
+      'Официальный раздел автошколы «Цитрариум» с основными сведениями, документами, образованием, руководством и обязательными подразделами.',
   },
 };
 

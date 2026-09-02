@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { contactData, navigation } from '../../data/site';
+import { educationBasePath } from '../../data/organization';
 import { handleInternalLink } from '../../lib/navigation';
 import { LinkButton } from '../ui/Button';
 
@@ -12,14 +13,12 @@ export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const logoSrc = `${import.meta.env.BASE_URL}logos/logo-citrarium.png?v=citrarium-20260804-logo`;
-  const normalizedPhone = contactData.phone.replace(/\D/g, '');
-  const hasPhone = contactData.phone.trim().length > 0;
-  const hasPhoneLink = hasPhone && normalizedPhone.length >= 10;
 
   useEffect(() => {
     function onScroll() {
       setIsScrolled(window.scrollY > 10);
     }
+
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -33,7 +32,14 @@ export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
   const nav = (
     <nav className="site-nav" aria-label="Основная навигация">
       {navigation.map((item) => (
-        <a key={item.href} href={item.href} onClick={(event) => handleInternalLink(event, item.href)}>
+        <a
+          key={item.href}
+          href={item.href}
+          onClick={(event) => {
+            handleInternalLink(event, item.href);
+            setIsMenuOpen(false);
+          }}
+        >
           {item.label}
         </a>
       ))}
@@ -43,11 +49,10 @@ export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
   return (
     <header className={`header ${isScrolled ? 'header--scrolled' : ''}`}>
       <div className="topbar">
-        <span>Официальный сайт автошколы «Цитрариум»</span>
+        <span>Автошкола «Цитрариум»</span>
         <span className="topbar__optional">{contactData.city}</span>
         <span className="topbar__optional">{contactData.hours}</span>
-        {hasPhone ? (hasPhoneLink ? <a href={`tel:${normalizedPhone}`}>{contactData.phone}</a> : <span>{contactData.phone}</span>) : null}
-        <a href="/svedeniya-ob-obrazovatelnoy-organizatsii" onClick={(event) => handleInternalLink(event, '/svedeniya-ob-obrazovatelnoy-organizatsii')}>
+        <a href={educationBasePath} onClick={(event) => handleInternalLink(event, educationBasePath)}>
           Сведения об образовательной организации
         </a>
       </div>
@@ -57,20 +62,14 @@ export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
         </a>
         {nav}
         <div className="header__actions">
-          {hasPhoneLink ? <a className="header__phone" href={`tel:${normalizedPhone}`}>{contactData.phone}</a> : null}
-          <LinkButton className="header-documents-button" href="/svedeniya-ob-obrazovatelnoy-organizatsii/dokumenty" icon="document">Документы</LinkButton>
+          <LinkButton className="header-documents-button" href={`${educationBasePath}/dokumenty`} icon="none">
+            Документы
+          </LinkButton>
           <button className="accessibility-toggle" type="button" aria-pressed={isAccessible} onClick={onToggleAccessible}>
             {isAccessible ? 'Обычная версия' : 'Версия для слабовидящих'}
           </button>
         </div>
         <div className="header__mobile-actions">
-          {hasPhoneLink ? (
-            <a className="icon-button" href={`tel:${normalizedPhone}`} aria-label="Позвонить">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M8.2 4.8 10 8.6 8.2 10a9.6 9.6 0 0 0 5.8 5.8l1.4-1.8 3.8 1.8v3.1c0 .7-.6 1.2-1.3 1.1C10.1 19.4 4.6 13.9 4 6.1c-.1-.7.4-1.3 1.1-1.3h3.1Z" />
-              </svg>
-            </a>
-          ) : null}
           <button className="icon-button" type="button" aria-pressed={isAccessible} aria-label="Версия для слабовидящих" onClick={onToggleAccessible}>
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z" />
@@ -87,7 +86,9 @@ export function Header({ isAccessible, onToggleAccessible }: HeaderProps) {
       {isMenuOpen ? (
         <div className="mobile-menu">
           {nav}
-          <LinkButton className="header-documents-button" href="/svedeniya-ob-obrazovatelnoy-organizatsii/dokumenty" icon="document" onClick={() => setIsMenuOpen(false)}>Документы</LinkButton>
+          <LinkButton className="header-documents-button" href={`${educationBasePath}/dokumenty`} icon="none" onClick={() => setIsMenuOpen(false)}>
+            Документы
+          </LinkButton>
         </div>
       ) : null}
     </header>

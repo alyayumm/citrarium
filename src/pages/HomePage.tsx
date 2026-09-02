@@ -1,327 +1,360 @@
 import { BrandIcon } from '../components/ui/BrandIcon';
 import { LinkButton } from '../components/ui/Button';
-import { Card } from '../components/ui/Card';
 import { Container } from '../components/ui/Container';
-import { documents, educationBasePath, educationSections, organizationData, type InfoSection } from '../data/organization';
+import { documents, educationBasePath, organizationData, type OfficialDocument } from '../data/organization';
 import { contactData } from '../data/site';
 import { handleInternalLink } from '../lib/navigation';
 import { toPublicHref } from '../lib/router';
 import type { IconName } from '../types';
 
-type QuickLink = {
+type BrandAssetName = 'documentsHero' | 'sectionsFolders' | 'secureDocuments' | 'educationDark' | 'documentsDark' | 'accessibilityDark';
+
+type FeatureItem = {
   title: string;
   text: string;
-  href: string;
   icon: IconName;
-  asset: BrandAssetName;
 };
 
-type SectionGroup = {
+type TariffPlan = {
   title: string;
-  description: string;
-  slugs: string[];
+  subtitle: string;
+  price: string;
+  details: string[];
+  note: string;
+  featured?: boolean;
 };
-
-type BrandAssetName =
-  | 'documentCheck'
-  | 'folderDocs'
-  | 'educationCap'
-  | 'shield'
-  | 'documentsHero'
-  | 'sectionsFolders'
-  | 'secureDocuments'
-  | 'documentsDark'
-  | 'educationDark'
-  | 'accessibilityDark';
 
 type ProcessStep = {
   title: string;
   text: string;
   icon: IconName;
-  asset: BrandAssetName;
 };
 
 const brandAssetVersion = '20260804-user-assets';
 
 const brandAssetSrc: Record<BrandAssetName, string> = {
-  documentCheck: `${import.meta.env.BASE_URL}brand-assets/icon-document-check.png?v=${brandAssetVersion}`,
-  folderDocs: `${import.meta.env.BASE_URL}brand-assets/icon-folder-docs.png?v=${brandAssetVersion}`,
-  educationCap: `${import.meta.env.BASE_URL}brand-assets/icon-education-cap.png?v=${brandAssetVersion}`,
-  shield: `${import.meta.env.BASE_URL}brand-assets/icon-shield.png?v=${brandAssetVersion}`,
   documentsHero: `${import.meta.env.BASE_URL}brand-assets/citrarium-documents-hero.webp?v=${brandAssetVersion}`,
   sectionsFolders: `${import.meta.env.BASE_URL}brand-assets/citrarium-sections-folders.webp?v=${brandAssetVersion}`,
   secureDocuments: `${import.meta.env.BASE_URL}brand-assets/citrarium-secure-documents.webp?v=${brandAssetVersion}`,
-  documentsDark: `${import.meta.env.BASE_URL}brand-assets/citrarium-icon-documents-dark.webp?v=${brandAssetVersion}`,
   educationDark: `${import.meta.env.BASE_URL}brand-assets/citrarium-icon-education-dark.webp?v=${brandAssetVersion}`,
+  documentsDark: `${import.meta.env.BASE_URL}brand-assets/citrarium-icon-documents-dark.webp?v=${brandAssetVersion}`,
   accessibilityDark: `${import.meta.env.BASE_URL}brand-assets/citrarium-icon-accessibility-dark.webp?v=${brandAssetVersion}`,
 };
 
-const heroLinks: QuickLink[] = [
-  { title: 'Официальные сведения', text: 'обязательные подразделы сайта', href: educationBasePath, icon: 'certificate', asset: 'documentCheck' },
-  { title: 'Документы', text: 'PDF и локальные акты', href: `${educationBasePath}/dokumenty`, icon: 'document', asset: 'folderDocs' },
-  { title: 'Доступность', text: 'версия для слабовидящих', href: `${educationBasePath}/dostupnaya-sreda`, icon: 'unlock', asset: 'shield' },
+const learningFormats: FeatureItem[] = [
+  {
+    title: 'Категория B',
+    text: 'Обучение на механической и автоматической коробке передач: онлайн-теория или занятия в классе.',
+    icon: 'card',
+  },
+  {
+    title: 'Категория A',
+    text: 'Отдельная программа для мотоцикла с онлайн- и классическим форматом обучения.',
+    icon: 'target',
+  },
+  {
+    title: 'Категория A+B',
+    text: 'Комбинированные программы для тех, кто планирует получить сразу несколько категорий.',
+    icon: 'grid',
+  },
 ];
 
-const quickLinks: QuickLink[] = [
-  { title: 'Основные сведения', text: 'наименование, адреса, режим работы, лицензия', href: `${educationBasePath}/osnovnye-svedeniya`, icon: 'building', asset: 'documentCheck' },
-  { title: 'Документы', text: 'устав, лицензия, программа, договоры', href: `${educationBasePath}/dokumenty`, icon: 'document', asset: 'folderDocs' },
-  { title: 'Образование', text: 'программы, сроки, формы и язык обучения', href: `${educationBasePath}/obrazovanie`, icon: 'education', asset: 'educationCap' },
-  { title: 'Педагогический состав', text: 'карточки сотрудников после подтверждения', href: `${educationBasePath}/pedagogicheskiy-sostav`, icon: 'shield', asset: 'shield' },
+const advantages: FeatureItem[] = [
+  {
+    title: 'Открытые документы',
+    text: 'Лицензия, устав, договор, приказ о стоимости и локальные акты доступны в официальном разделе сайта.',
+    icon: 'document',
+  },
+  {
+    title: 'Понятные тарифы',
+    text: 'Стоимость вынесена на главную и дополнительно подтверждается приказом о платных образовательных услугах.',
+    icon: 'finance',
+  },
+  {
+    title: 'Форматы под задачу',
+    text: 'Можно выбрать онлайн-теорию, классическое обучение, обычный или VIP-пакет.',
+    icon: 'education',
+  },
+  {
+    title: 'Санкт-Петербург',
+    text: 'Автошкола работает в Санкт-Петербурге ежедневно с 9:00 до 21:00.',
+    icon: 'map',
+  },
 ];
 
-const sectionGroups: SectionGroup[] = [
+const tariffPlans: TariffPlan[] = [
   {
-    title: 'Организация',
-    description: 'Базовые сведения, структура управления и руководство автошколы.',
-    slugs: ['osnovnye-svedeniya', 'struktura-i-organy-upravleniya', 'rukovodstvo'],
+    title: 'B онлайн',
+    subtitle: 'Теория в дистанционном формате',
+    price: 'от 60 000 ₽',
+    details: ['МКПП: 60 000 ₽ / 65 500 ₽', 'АКПП: 62 000 ₽ / 70 990 ₽', 'VIP: от 82 000 ₽'],
+    note: 'Пакеты «Меньше» и «Больше» по приказу о стоимости.',
+    featured: true,
   },
   {
-    title: 'Образовательный процесс',
-    description: 'Программы, стандарты, педагогический состав и условия обучения.',
-    slugs: ['obrazovanie', 'pedagogicheskiy-sostav', 'obrazovatelnye-standarty-i-trebovaniya'],
+    title: 'B класс',
+    subtitle: 'Теория в учебном классе',
+    price: 'от 62 000 ₽',
+    details: ['МКПП: 62 000 ₽ / 70 990 ₽', 'АКПП: 64 000 ₽ / 76 500 ₽', 'VIP: от 84 000 ₽'],
+    note: 'Очный формат обучения для категории B.',
   },
   {
-    title: 'Документы и услуги',
-    description: 'Локальные акты, платные услуги, финансы и вакантные места.',
-    slugs: ['dokumenty', 'platnye-obrazovatelnye-uslugi', 'finansovo-hozyaystvennaya-deyatelnost', 'vakantnye-mesta'],
+    title: 'A+B',
+    subtitle: 'Комбинированная программа',
+    price: 'от 86 000 ₽',
+    details: ['Онлайн: от 86 000 ₽', 'Класс: от 88 000 ₽', 'VIP: от 108 000 ₽'],
+    note: 'Для одновременного обучения по двум категориям.',
   },
   {
-    title: 'Условия и доступность',
-    description: 'Материальная база, поддержка, питание, доступная среда и сотрудничество.',
-    slugs: ['materialno-tehnicheskoe-obespechenie', 'stipendii-i-mery-podderzhki', 'organizatsiya-pitaniya', 'dostupnaya-sreda', 'mezhdunarodnoe-sotrudnichestvo'],
+    title: 'A',
+    subtitle: 'Программа для мотоцикла',
+    price: 'от 29 500 ₽',
+    details: ['Онлайн: 29 500 ₽', 'Класс: 34 990 ₽', 'ПВ: от 13 000 ₽'],
+    note: 'Отдельный тарифный блок категории A.',
   },
 ];
 
 const processSteps: ProcessStep[] = [
-  { title: 'Откройте раздел', text: 'Выберите нужный подраздел в каталоге официальных сведений.', icon: 'search', asset: 'folderDocs' },
-  { title: 'Проверьте статус', text: 'У каждого документа видно, готов ли PDF к публикации.', icon: 'shield', asset: 'documentCheck' },
-  { title: 'Скачайте файл', text: 'После загрузки реальных PDF ссылки будут работать как архив документов.', icon: 'download', asset: 'shield' },
+  {
+    title: 'Выберите категорию',
+    text: 'Сравните формат обучения и тариф: B, A, A+B, онлайн, класс или VIP.',
+    icon: 'search',
+  },
+  {
+    title: 'Заключите договор',
+    text: 'Ознакомьтесь с образцом договора и условиями платных образовательных услуг.',
+    icon: 'document',
+  },
+  {
+    title: 'Пройдите теорию',
+    text: 'Изучайте программу в выбранном формате: дистанционно или в классе.',
+    icon: 'education',
+  },
+  {
+    title: 'Отработайте практику',
+    text: 'Практические занятия проходят в рамках выбранной программы обучения.',
+    icon: 'target',
+  },
+  {
+    title: 'Сдайте аттестацию',
+    text: 'Порядок текущего контроля, промежуточной и итоговой аттестации размещен в документах.',
+    icon: 'certificate',
+  },
+  {
+    title: 'Готовьтесь к экзамену',
+    text: 'После завершения обучения автошкола оформляет необходимые образовательные документы.',
+    icon: 'shield',
+  },
 ];
 
-const statusLabels = {
-  available: 'PDF доступен',
-  pending: 'PDF будет добавлен',
-  absent: 'Документ отсутствует',
-};
+const documentIds = ['license', 'charter', 'price-order', 'contract'];
 
-function sectionsBySlug(slugs: string[]) {
-  return slugs
-    .map((slug) => educationSections.find((section) => section.slug === slug))
-    .filter((section): section is InfoSection => Boolean(section));
+function getDocumentById(id: string): OfficialDocument | undefined {
+  return documents.find((document) => document.id === id);
 }
 
 export function HomePage() {
-  const contactLine = [contactData.phone, contactData.email].filter(Boolean).join(' · ') || 'Телефон и email будут добавлены после подтверждения';
+  const keyDocuments = documentIds.map(getDocumentById).filter((document): document is OfficialDocument => Boolean(document));
+  const contactLine = [contactData.city, contactData.hours].filter(Boolean).join(' · ');
 
   return (
-    <main>
-      <section className="official-hero">
-        <Container className="official-hero__inner">
-          <div className="official-hero__copy">
-            <p className="official-kicker official-kicker--with-icon">
-              <BrandIcon name="shield" />
-              Официальный сайт автошколы
+    <main className="school-home">
+      <section className="home-hero">
+        <Container className="home-hero__inner">
+          <div className="home-hero__copy">
+            <p className="home-pill">
+              <BrandIcon name="map" />
+              {contactLine}
             </p>
-            <h1>Сведения и документы автошколы «Цитрариум»</h1>
+            <h1>Автошкола «Цитрариум»: обучение вождению в Санкт-Петербурге</h1>
             <p>
-              Собрали структуру сайта под обязательные сведения об образовательной организации:
-              разделы, документы, статусы публикации и быстрый доступ без вымышленных данных.
+              Категории B, A и A+B, онлайн-теория или обучение в классе. Тарифы, лицензия и документы размещены открыто,
+              чтобы перед записью было понятно, за что вы платите и на каких условиях проходит обучение.
             </p>
-            <div className="official-hero__actions">
-              <LinkButton href={educationBasePath}>Открыть сведения</LinkButton>
-              <LinkButton href={`${educationBasePath}/dokumenty`} variant="secondary">Все документы</LinkButton>
+            <div className="home-hero__actions">
+              <LinkButton href="#tariffs">Выбрать тариф</LinkButton>
+              <LinkButton href={educationBasePath} variant="secondary" icon="document">
+                Официальные сведения
+              </LinkButton>
             </div>
-            <div className="official-hero__icon-row">
-              {heroLinks.map((item) => (
-                <a key={item.href} href={item.href} onClick={(event) => handleInternalLink(event, item.href)}>
-                  <span className="registry-link__icon">
-                    <BrandIcon name={item.icon} />
-                  </span>
-                  <span>
-                    <strong>{item.title}</strong>
-                    <em>{item.text}</em>
-                  </span>
+            <dl className="home-hero__facts" aria-label="Краткие сведения">
+              <div>
+                <dt>Лицензия</dt>
+                <dd>{organizationData.licenseStatus}</dd>
+              </div>
+              <div>
+                <dt>Форматы</dt>
+                <dd>онлайн и класс</dd>
+              </div>
+              <div>
+                <dt>Тарифы</dt>
+                <dd>по приказу</dd>
+              </div>
+            </dl>
+          </div>
+          <div className="home-hero__visual" aria-hidden="true">
+            <img src={brandAssetSrc.documentsHero} alt="" decoding="async" fetchPriority="high" />
+          </div>
+        </Container>
+      </section>
+
+      <section className="home-section" id="categories">
+        <Container>
+          <div className="home-section__head">
+            <h2>Категории и форматы обучения</h2>
+            <p>На главной собраны основные направления, а юридические сведения вынесены в отдельный официальный раздел.</p>
+          </div>
+          <div className="format-grid">
+            {learningFormats.map((item) => (
+              <article className="format-item" key={item.title}>
+                <span className="format-item__icon">
+                  <BrandIcon name={item.icon} />
+                </span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="home-section home-section--surface" id="tariffs">
+        <Container>
+          <div className="tariffs-layout">
+            <div className="home-section__head tariffs-layout__intro">
+              <h2>Тарифы</h2>
+              <p>
+                Цены указаны по приказу об установлении стоимости обучения. Подробные варианты практического вождения и
+                оплаты открываются в документе.
+              </p>
+              {getDocumentById('price-order') ? (
+                <a
+                  className="home-text-link"
+                  href={toPublicHref(getDocumentById('price-order')!.href)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Открыть приказ о стоимости
                 </a>
+              ) : null}
+            </div>
+            <div className="tariff-grid" aria-label="Тарифы автошколы">
+              {tariffPlans.map((plan) => (
+                <article className={`tariff-card ${plan.featured ? 'tariff-card--featured' : ''}`} key={plan.title}>
+                  <div className="tariff-card__top">
+                    <span>{plan.subtitle}</span>
+                    {plan.featured ? <em>популярный формат</em> : null}
+                  </div>
+                  <h3>{plan.title}</h3>
+                  <strong>{plan.price}</strong>
+                  <ul>
+                    {plan.details.map((detail) => (
+                      <li key={detail}>{detail}</li>
+                    ))}
+                  </ul>
+                  <p>{plan.note}</p>
+                </article>
               ))}
             </div>
           </div>
-          <OfficialRouteVisual />
         </Container>
       </section>
 
-      <section className="quick-access-section">
-        <Container className="quick-access">
-          <div className="quick-access__intro">
-            <h2>Быстрый доступ</h2>
-            <p>Самые частые разделы вынесены на первый экран, чтобы не искать документы внутри длинной страницы.</p>
-            <img className="quick-access__image" src={brandAssetSrc.sectionsFolders} alt="" loading="lazy" decoding="async" />
+      <section className="home-section">
+        <Container className="home-split">
+          <div className="home-split__media" aria-hidden="true">
+            <img src={brandAssetSrc.sectionsFolders} alt="" loading="lazy" decoding="async" />
           </div>
-          <nav className="quick-access__nav" aria-label="Быстрый доступ к разделам">
-            {quickLinks.map((item) => (
-              <a key={item.href} href={item.href} onClick={(event) => handleInternalLink(event, item.href)}>
-                <span className="registry-link__icon">
+          <div className="home-split__content">
+            <div className="home-section__head">
+              <h2>Почему удобно учиться у нас</h2>
+              <p>Акцент на понятной структуре обучения, открытых документах и спокойной навигации по условиям.</p>
+            </div>
+            <div className="benefit-list">
+              {advantages.map((item) => (
+                <article className="benefit-item" key={item.title}>
                   <BrandIcon name={item.icon} />
-                </span>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="home-section home-section--surface" id="process">
+        <Container>
+          <div className="home-section__head home-section__head--wide">
+            <h2>Как проходит обучение</h2>
+            <p>Структура как у обычной автошколы: выбор программы, договор, теория, практика, аттестация и подготовка документов.</p>
+          </div>
+          <div className="process-list">
+            {processSteps.map((step, index) => (
+              <article className="process-list__item" key={step.title}>
+                <span className="process-list__number">{index + 1}</span>
+                <BrandIcon name={step.icon} />
+                <div>
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="home-section" id="documents">
+        <Container className="documents-preview">
+          <div className="documents-preview__copy">
+            <div className="home-section__head">
+              <h2>Документы автошколы</h2>
+              <p>Лицензия, устав, договор и стоимость обучения доступны на сайте в PDF.</p>
+            </div>
+            <LinkButton href={`${educationBasePath}/dokumenty`} variant="secondary" icon="document">
+              Все документы
+            </LinkButton>
+          </div>
+          <div className="documents-preview__list" aria-label="Ключевые документы">
+            {keyDocuments.map((document) => (
+              <a key={document.id} href={toPublicHref(document.href)} target="_blank" rel="noreferrer">
                 <span>
-                  <strong>{item.title}</strong>
-                  <em>{item.text}</em>
+                  <BrandIcon name="document" />
                 </span>
+                <strong>{document.title}</strong>
+                <em>PDF</em>
               </a>
             ))}
-          </nav>
-        </Container>
-      </section>
-
-      <section className="section" id="svedeniya">
-        <Container className="official-summary-layout">
-          <header className="section-heading">
-            <p className="official-kicker">Карточка организации</p>
-            <h2>Данные без фантазий</h2>
-            <p>Поля подготовлены под публикацию официальных сведений. Сейчас неподтвержденные данные оставлены как плейсхолдеры.</p>
-          </header>
-          <Card className="organization-panel">
-            <dl className="official-data-list official-data-list--featured">
-              <div>
-                <span className="official-data-list__icon"><BrandIcon name="building" /></span>
-                <dt>Полное наименование</dt>
-                <dd>{organizationData.fullName}</dd>
-              </div>
-              <div>
-                <span className="official-data-list__icon"><BrandIcon name="certificate" /></span>
-                <dt>Сокращенное наименование</dt>
-                <dd>{organizationData.shortName}</dd>
-              </div>
-              <div>
-                <span className="official-data-list__icon"><BrandIcon name="map" /></span>
-                <dt>Адрес</dt>
-                <dd>{organizationData.address}</dd>
-              </div>
-              <div>
-                <span className="official-data-list__icon"><BrandIcon name="phone" /></span>
-                <dt>Контакты</dt>
-                <dd>{contactLine}</dd>
-              </div>
-            </dl>
-          </Card>
-        </Container>
-      </section>
-
-      <section className="section section--muted" id="documents">
-        <Container>
-          <header className="section-heading">
-            <p className="official-kicker">Структура</p>
-            <h2>Официальный раздел по ТЗ</h2>
-            <p>Разделы сгруппированы так, чтобы посетитель быстро нашел сведения об организации, обучении, документах и доступной среде.</p>
-          </header>
-          <div className="section-group-stack">
-            {sectionGroups.map((group) => (
-              <article className="section-group-panel" key={group.title}>
-                <div className="section-group-panel__head">
-                  <div className="section-group-panel__title">
-                    <div>
-                      <h3>{group.title}</h3>
-                      <p>{group.description}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="section-group-panel__links">
-                  {sectionsBySlug(group.slugs).map((section) => (
-                    <a key={section.slug} href={`${educationBasePath}/${section.slug}`} onClick={(event) => handleInternalLink(event, `${educationBasePath}/${section.slug}`)}>
-                      <BrandIcon name={section.icon} />
-                      {section.shortTitle}
-                    </a>
-                  ))}
-                </div>
-              </article>
-            ))}
           </div>
         </Container>
       </section>
 
-      <section className="section">
-        <Container className="document-status-layout">
-          <header className="section-heading document-status-copy">
-            <p className="official-kicker">Документы</p>
-            <h2>Статусы публикации видны сразу</h2>
-            <p>PDF из переданного архива загружены в реестр. Для оставшихся позиций сайт отдельно показывает статус ожидания файла.</p>
-            <div className="document-stats" aria-label="Статусы документов">
-              <span><strong>{documents.length}</strong> документов в структуре</span>
-              <span><strong>{documents.filter((item) => item.status === 'pending').length}</strong> ожидают PDF</span>
-            </div>
-          </header>
-          <div className="document-flow">
-            {documents.slice(0, 6).map((document) => (
-              <article className="document-flow__item" key={document.id}>
-                <div className="document-flow__body">
-                  <h3>{document.title}</h3>
-                  <p>{document.description}</p>
-                </div>
-                <span className={`document-status document-status--${document.status}`}>{statusLabels[document.status]}</span>
-                <a className="document-flow__action" href={toPublicHref(document.href)} target="_blank" rel="noreferrer">
-                  Открыть
-                </a>
-              </article>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section className="section section--muted">
-        <Container>
-          <header className="section-heading section-heading--center">
-            <p className="official-kicker">Порядок работы</p>
-            <h2>Как пользоваться разделом</h2>
-          </header>
-          <div className="process-rail">
-            {processSteps.map((step, index) => (
-              <article className="process-step" key={step.title}>
-                <span className="process-step__number">{String(index + 1).padStart(2, '0')}</span>
-                <span className="process-step__icon">
-                  <BrandIcon name={step.icon} />
-                </span>
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
-              </article>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section className="final-cta" id="contacts">
-        <Container className="final-cta__inner">
+      <section className="home-section home-section--dark" id="contacts">
+        <Container className="contact-cta">
           <div>
-            <h2>Нужны реальные документы для публикации</h2>
-            <p>Чтобы закрыть официальный раздел полностью, нужно заменить плейсхолдеры на подтвержденные реквизиты, лицензии, локальные акты и PDF-файлы.</p>
-            <div className="final-links">
-              <a href={educationBasePath} onClick={(event) => handleInternalLink(event, educationBasePath)}>Все сведения</a>
-              <a href={`${educationBasePath}/dokumenty`} onClick={(event) => handleInternalLink(event, `${educationBasePath}/dokumenty`)}>Документы</a>
-              <a href="/privacy" onClick={(event) => handleInternalLink(event, '/privacy')}>Политика</a>
+            <p className="home-pill home-pill--dark">
+              <BrandIcon name="clock" />
+              {contactLine}
+            </p>
+            <h2>Выберите тариф и проверьте документы перед записью</h2>
+            <p>
+              На сайте собраны стоимость обучения, лицензия, устав, договор и сведения об образовательной организации.
+              Это помогает спокойно сравнить варианты и перейти к обучению без лишних вопросов.
+            </p>
+            <div className="home-hero__actions">
+              <LinkButton href="#tariffs">К тарифам</LinkButton>
+              <LinkButton href={`${educationBasePath}/dokumenty`} variant="dark" icon="document">
+                Документы
+              </LinkButton>
             </div>
           </div>
-          <Card className="contact-panel">
-            <img className="contact-panel__image" src={brandAssetSrc.secureDocuments} alt="" loading="lazy" decoding="async" />
-            <span className="brand-icon-shell brand-icon-shell--large">
-              <BrandIcon name="mail" />
-            </span>
-            <h3>Контактные данные</h3>
-            {contactData.phone ? <p>{contactData.phone}</p> : null}
-            {contactData.email ? <p>{contactData.email}</p> : null}
-            {contactData.address ? <p>{contactData.address}</p> : null}
-            <p>{contactData.hours}</p>
-            <p>Каналы связи будут добавлены после подтверждения.</p>
-          </Card>
+          <div className="contact-cta__image" aria-hidden="true">
+            <img src={brandAssetSrc.secureDocuments} alt="" loading="lazy" decoding="async" />
+          </div>
         </Container>
       </section>
     </main>
-  );
-}
-
-function OfficialRouteVisual() {
-  const heroSrc = brandAssetSrc.documentsHero;
-
-  return (
-    <div className="portal-visual portal-visual--document" aria-hidden="true">
-      <img className="document-hero-visual__wide" src={heroSrc} alt="" decoding="async" fetchPriority="high" />
-    </div>
   );
 }

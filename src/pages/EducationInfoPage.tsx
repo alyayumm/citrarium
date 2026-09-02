@@ -245,7 +245,7 @@ function InfoSectionBlock({ section }: { section: InfoSection }) {
                   <BrandIcon name="document" />
                 </span>
                 <span className={`document-status document-status--${document.status}`}>
-                  {document.status === 'available' ? 'PDF' : document.status === 'absent' ? 'Отсутствует' : 'PDF будет добавлен'}
+                  PDF
                 </span>
               </div>
               <h3>{document.title}</h3>
