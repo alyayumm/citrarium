@@ -305,7 +305,7 @@ export function HomePage() {
       <section className="home-section">
         <Container className="home-split">
           <div className="home-split__media" aria-hidden="true">
-            <img src={serviceAssetSrc.managerCar} alt="" loading="lazy" decoding="async" />
+            <img src={serviceAssetSrc.managerCar} alt="" loading="eager" decoding="async" />
           </div>
           <div className="home-split__content">
             <div className="home-section__head">
