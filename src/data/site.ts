@@ -22,7 +22,7 @@ export const contactData = {
 };
 
 export const navigation: NavItem[] = [
-  { label: 'Категории', href: '/#categories' },
+  { label: 'Услуги', href: '/#services' },
   { label: 'Тарифы', href: '/#tariffs' },
   { label: 'Обучение', href: '/#process' },
   { label: 'Документы', href: `${educationBasePath}/dokumenty` },
@@ -31,7 +31,7 @@ export const navigation: NavItem[] = [
 
 export const footerNavigation: NavItem[] = [
   { label: 'Главная', href: '/' },
-  { label: 'Категории', href: '/#categories' },
+  { label: 'Услуги', href: '/#services' },
   { label: 'Тарифы', href: '/#tariffs' },
   { label: 'Как проходит обучение', href: '/#process' },
   { label: 'Документы', href: `${educationBasePath}/dokumenty` },

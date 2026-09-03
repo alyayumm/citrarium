@@ -5,14 +5,28 @@ import { documents, educationBasePath, organizationData, type OfficialDocument }
 import { contactData } from '../data/site';
 import { handleInternalLink } from '../lib/navigation';
 import { toPublicHref } from '../lib/router';
-import type { IconName } from '../types';
 
-type BrandAssetName = 'documentsHero' | 'sectionsFolders' | 'secureDocuments' | 'educationDark' | 'documentsDark' | 'accessibilityDark';
+type ServiceAssetName =
+  | 'roadHero'
+  | 'car'
+  | 'managerCar'
+  | 'instructorCar'
+  | 'cardA'
+  | 'cardB'
+  | 'cardTheory'
+  | 'iconSteering'
+  | 'iconCone'
+  | 'iconCalendar'
+  | 'iconKeys'
+  | 'iconSign'
+  | 'iconCard'
+  | 'iconRoute'
+  | 'iconTheory';
 
 type FeatureItem = {
   title: string;
   text: string;
-  icon: IconName;
+  asset: ServiceAssetName;
 };
 
 type TariffPlan = {
@@ -21,41 +35,56 @@ type TariffPlan = {
   price: string;
   details: string[];
   note: string;
+  asset: ServiceAssetName;
   featured?: boolean;
 };
 
 type ProcessStep = {
   title: string;
   text: string;
-  icon: IconName;
+  asset: ServiceAssetName;
 };
 
-const brandAssetVersion = '20260804-user-assets';
+const serviceAssetVersion = '20260903-service-assets';
 
-const brandAssetSrc: Record<BrandAssetName, string> = {
-  documentsHero: `${import.meta.env.BASE_URL}brand-assets/citrarium-documents-hero.webp?v=${brandAssetVersion}`,
-  sectionsFolders: `${import.meta.env.BASE_URL}brand-assets/citrarium-sections-folders.webp?v=${brandAssetVersion}`,
-  secureDocuments: `${import.meta.env.BASE_URL}brand-assets/citrarium-secure-documents.webp?v=${brandAssetVersion}`,
-  educationDark: `${import.meta.env.BASE_URL}brand-assets/citrarium-icon-education-dark.webp?v=${brandAssetVersion}`,
-  documentsDark: `${import.meta.env.BASE_URL}brand-assets/citrarium-icon-documents-dark.webp?v=${brandAssetVersion}`,
-  accessibilityDark: `${import.meta.env.BASE_URL}brand-assets/citrarium-icon-accessibility-dark.webp?v=${brandAssetVersion}`,
+const serviceAssetSrc: Record<ServiceAssetName, string> = {
+  roadHero: `${import.meta.env.BASE_URL}service-assets/service-road-hero.webp?v=${serviceAssetVersion}`,
+  car: `${import.meta.env.BASE_URL}service-assets/service-car.webp?v=${serviceAssetVersion}`,
+  managerCar: `${import.meta.env.BASE_URL}service-assets/service-manager-car.webp?v=${serviceAssetVersion}`,
+  instructorCar: `${import.meta.env.BASE_URL}service-assets/service-instructor-car.webp?v=${serviceAssetVersion}`,
+  cardA: `${import.meta.env.BASE_URL}service-assets/service-card-a.webp?v=${serviceAssetVersion}`,
+  cardB: `${import.meta.env.BASE_URL}service-assets/service-card-b.webp?v=${serviceAssetVersion}`,
+  cardTheory: `${import.meta.env.BASE_URL}service-assets/service-card-theory.webp?v=${serviceAssetVersion}`,
+  iconSteering: `${import.meta.env.BASE_URL}service-assets/service-icon-steering.webp?v=${serviceAssetVersion}`,
+  iconCone: `${import.meta.env.BASE_URL}service-assets/service-icon-cone.webp?v=${serviceAssetVersion}`,
+  iconCalendar: `${import.meta.env.BASE_URL}service-assets/service-icon-calendar.webp?v=${serviceAssetVersion}`,
+  iconKeys: `${import.meta.env.BASE_URL}service-assets/service-icon-keys.webp?v=${serviceAssetVersion}`,
+  iconSign: `${import.meta.env.BASE_URL}service-assets/service-icon-sign.webp?v=${serviceAssetVersion}`,
+  iconCard: `${import.meta.env.BASE_URL}service-assets/service-icon-card.webp?v=${serviceAssetVersion}`,
+  iconRoute: `${import.meta.env.BASE_URL}service-assets/service-icon-route.webp?v=${serviceAssetVersion}`,
+  iconTheory: `${import.meta.env.BASE_URL}service-assets/service-icon-theory.webp?v=${serviceAssetVersion}`,
 };
 
 const learningFormats: FeatureItem[] = [
   {
     title: 'Категория B',
     text: 'Обучение на механической и автоматической коробке передач: онлайн-теория или занятия в классе.',
-    icon: 'card',
+    asset: 'cardB',
   },
   {
     title: 'Категория A',
     text: 'Отдельная программа для мотоцикла с онлайн- и классическим форматом обучения.',
-    icon: 'target',
+    asset: 'cardA',
   },
   {
     title: 'Категория A+B',
     text: 'Комбинированные программы для тех, кто планирует получить сразу несколько категорий.',
-    icon: 'grid',
+    asset: 'iconRoute',
+  },
+  {
+    title: 'Теория онлайн',
+    text: 'Дистанционный формат для теории: материалы и занятия доступны без лишних поездок в класс.',
+    asset: 'cardTheory',
   },
 ];
 
@@ -63,22 +92,22 @@ const advantages: FeatureItem[] = [
   {
     title: 'Открытые документы',
     text: 'Лицензия, устав, договор, приказ о стоимости и локальные акты доступны в официальном разделе сайта.',
-    icon: 'document',
+    asset: 'iconCard',
   },
   {
     title: 'Понятные тарифы',
     text: 'Стоимость вынесена на главную и дополнительно подтверждается приказом о платных образовательных услугах.',
-    icon: 'finance',
+    asset: 'iconCalendar',
   },
   {
     title: 'Форматы под задачу',
     text: 'Можно выбрать онлайн-теорию, классическое обучение, обычный или VIP-пакет.',
-    icon: 'education',
+    asset: 'iconTheory',
   },
   {
     title: 'Санкт-Петербург',
     text: 'Автошкола работает в Санкт-Петербурге ежедневно с 9:00 до 21:00.',
-    icon: 'map',
+    asset: 'iconRoute',
   },
 ];
 
@@ -89,6 +118,7 @@ const tariffPlans: TariffPlan[] = [
     price: 'от 60 000 ₽',
     details: ['МКПП: 60 000 ₽ / 65 500 ₽', 'АКПП: 62 000 ₽ / 70 990 ₽', 'VIP: от 82 000 ₽'],
     note: 'Пакеты «Меньше» и «Больше» по приказу о стоимости.',
+    asset: 'iconTheory',
     featured: true,
   },
   {
@@ -97,6 +127,7 @@ const tariffPlans: TariffPlan[] = [
     price: 'от 62 000 ₽',
     details: ['МКПП: 62 000 ₽ / 70 990 ₽', 'АКПП: 64 000 ₽ / 76 500 ₽', 'VIP: от 84 000 ₽'],
     note: 'Очный формат обучения для категории B.',
+    asset: 'iconSteering',
   },
   {
     title: 'A+B',
@@ -104,6 +135,7 @@ const tariffPlans: TariffPlan[] = [
     price: 'от 86 000 ₽',
     details: ['Онлайн: от 86 000 ₽', 'Класс: от 88 000 ₽', 'VIP: от 108 000 ₽'],
     note: 'Для одновременного обучения по двум категориям.',
+    asset: 'iconKeys',
   },
   {
     title: 'A',
@@ -111,6 +143,7 @@ const tariffPlans: TariffPlan[] = [
     price: 'от 29 500 ₽',
     details: ['Онлайн: 29 500 ₽', 'Класс: 34 990 ₽', 'ПВ: от 13 000 ₽'],
     note: 'Отдельный тарифный блок категории A.',
+    asset: 'iconSign',
   },
 ];
 
@@ -118,32 +151,32 @@ const processSteps: ProcessStep[] = [
   {
     title: 'Выберите категорию',
     text: 'Сравните формат обучения и тариф: B, A, A+B, онлайн, класс или VIP.',
-    icon: 'search',
+    asset: 'iconSign',
   },
   {
     title: 'Заключите договор',
     text: 'Ознакомьтесь с образцом договора и условиями платных образовательных услуг.',
-    icon: 'document',
+    asset: 'iconCard',
   },
   {
     title: 'Пройдите теорию',
     text: 'Изучайте программу в выбранном формате: дистанционно или в классе.',
-    icon: 'education',
+    asset: 'iconTheory',
   },
   {
     title: 'Отработайте практику',
     text: 'Практические занятия проходят в рамках выбранной программы обучения.',
-    icon: 'target',
+    asset: 'iconSteering',
   },
   {
     title: 'Сдайте аттестацию',
     text: 'Порядок текущего контроля, промежуточной и итоговой аттестации размещен в документах.',
-    icon: 'certificate',
+    asset: 'iconCalendar',
   },
   {
     title: 'Готовьтесь к экзамену',
     text: 'После завершения обучения автошкола оформляет необходимые образовательные документы.',
-    icon: 'shield',
+    asset: 'iconKeys',
   },
 ];
 
@@ -193,26 +226,28 @@ export function HomePage() {
               </div>
             </dl>
           </div>
-          <div className="home-hero__visual" aria-hidden="true">
-            <img src={brandAssetSrc.documentsHero} alt="" decoding="async" fetchPriority="high" />
+          <div className="home-hero__visual home-hero__visual--photo" aria-hidden="true">
+            <img src={serviceAssetSrc.roadHero} alt="" decoding="async" fetchPriority="high" />
           </div>
         </Container>
       </section>
 
-      <section className="home-section" id="categories">
+      <section className="home-section" id="services">
         <Container>
           <div className="home-section__head">
-            <h2>Категории и форматы обучения</h2>
-            <p>На главной собраны основные направления, а юридические сведения вынесены в отдельный официальный раздел.</p>
+            <h2>Услуги и форматы обучения</h2>
+            <p>Выберите направление: легковой автомобиль, мотоцикл, комбинированную программу или онлайн-теорию.</p>
           </div>
           <div className="format-grid">
             {learningFormats.map((item) => (
-              <article className="format-item" key={item.title}>
-                <span className="format-item__icon">
-                  <BrandIcon name={item.icon} />
-                </span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
+              <article className="format-item format-item--visual" key={item.title}>
+                <div className="format-item__visual" aria-hidden="true">
+                  <img src={serviceAssetSrc[item.asset]} alt="" loading="lazy" decoding="async" />
+                </div>
+                <div className="format-item__body">
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
               </article>
             ))}
           </div>
@@ -238,10 +273,16 @@ export function HomePage() {
                   Открыть приказ о стоимости
                 </a>
               ) : null}
+              <div className="tariffs-layout__image" aria-hidden="true">
+                <img src={serviceAssetSrc.car} alt="" loading="lazy" decoding="async" />
+              </div>
             </div>
             <div className="tariff-grid" aria-label="Тарифы автошколы">
               {tariffPlans.map((plan) => (
                 <article className={`tariff-card ${plan.featured ? 'tariff-card--featured' : ''}`} key={plan.title}>
+                  <div className="tariff-card__visual" aria-hidden="true">
+                    <img src={serviceAssetSrc[plan.asset]} alt="" loading="lazy" decoding="async" />
+                  </div>
                   <div className="tariff-card__top">
                     <span>{plan.subtitle}</span>
                     {plan.featured ? <em>популярный формат</em> : null}
@@ -264,7 +305,7 @@ export function HomePage() {
       <section className="home-section">
         <Container className="home-split">
           <div className="home-split__media" aria-hidden="true">
-            <img src={brandAssetSrc.sectionsFolders} alt="" loading="lazy" decoding="async" />
+            <img src={serviceAssetSrc.managerCar} alt="" loading="lazy" decoding="async" />
           </div>
           <div className="home-split__content">
             <div className="home-section__head">
@@ -274,7 +315,9 @@ export function HomePage() {
             <div className="benefit-list">
               {advantages.map((item) => (
                 <article className="benefit-item" key={item.title}>
-                  <BrandIcon name={item.icon} />
+                  <span className="benefit-item__image" aria-hidden="true">
+                    <img src={serviceAssetSrc[item.asset]} alt="" loading="lazy" decoding="async" />
+                  </span>
                   <div>
                     <h3>{item.title}</h3>
                     <p>{item.text}</p>
@@ -296,7 +339,9 @@ export function HomePage() {
             {processSteps.map((step, index) => (
               <article className="process-list__item" key={step.title}>
                 <span className="process-list__number">{index + 1}</span>
-                <BrandIcon name={step.icon} />
+                <span className="process-list__image" aria-hidden="true">
+                  <img src={serviceAssetSrc[step.asset]} alt="" loading="lazy" decoding="async" />
+                </span>
                 <div>
                   <h3>{step.title}</h3>
                   <p>{step.text}</p>
@@ -352,7 +397,7 @@ export function HomePage() {
             </div>
           </div>
           <div className="contact-cta__image" aria-hidden="true">
-            <img src={brandAssetSrc.secureDocuments} alt="" loading="lazy" decoding="async" />
+            <img src={serviceAssetSrc.instructorCar} alt="" loading="lazy" decoding="async" />
           </div>
         </Container>
       </section>
