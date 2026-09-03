@@ -4115,7 +4115,8 @@ body {
 }
 
 .format-item__visual {
-  min-height: 190px;
+  height: 205px;
+  min-height: 205px;
   display: grid;
   place-items: center;
   border-bottom: 1px solid var(--line);
@@ -4130,8 +4131,9 @@ body {
 }
 
 .format-item--visual:nth-child(3) .format-item__visual img {
-  width: 74%;
-  height: 178px;
+  width: 100%;
+  height: 205px;
+  transform: translateY(4px);
 }
 
 .format-item__body {
