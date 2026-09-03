@@ -4518,8 +4518,10 @@ body {
   }
 
   .home-hero h1 {
-    font-size: clamp(34px, 10vw, 38px);
+    font-size: clamp(34px, 9vw, 37px);
     line-height: 1.08;
+    overflow-wrap: break-word;
+    text-wrap: pretty;
   }
 
   .home-hero__copy > p:not(.home-pill) {
